@@ -1,1 +1,2 @@
 deepspeech==0.3.0
+# pyaudio==0.2.11
