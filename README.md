@@ -4,7 +4,7 @@ A speech assistant using Mozilla's [DeepSpeech engine](https://github.com/mozill
 The application is still experimental and requires recorded user input.
 
 ## Getting Started
-* `apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev`
+* `apt-get install libportaudio0 libportaudio2 libportaudiocpp0 libatlas-base-dev portaudio19-dev`
 * `pip3 install -r requirements.txt`
 * Obtain a recent version of the DeepSpeech model from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
     * See [this README](https://github.com/mozilla/DeepSpeech#getting-the-pre-trained-model) for further instructions
@@ -18,4 +18,4 @@ The application is still experimental and requires recorded user input.
             * `trie`
 
 ## Running
-* `python main.py`
+* `python3 src/main.py`
