@@ -2,11 +2,11 @@ import subprocess
 import speech_recognition
 import os
 
-MODEL_FILE = "local/output_graph.pbmm"
-ALPHABET_FILE = "local/alphabet.txt"
+MODEL_FILE = "local/models/output_graph.pbmm"
+ALPHABET_FILE = "local/models/alphabet.txt"
 AUDIO_FILE = "local/input.wav"
-LANGUAGE_MODEL_FILE = "local/lm.binary"
-TRIE_FILE = "local/trie"
+LANGUAGE_MODEL_FILE = "local/models/lm.binary"
+TRIE_FILE = "local/models/trie"
 
 def to_abs_path(rel_path):
     abs_path = os.path.join(os.getcwd(), rel_path)

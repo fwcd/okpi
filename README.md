@@ -4,17 +4,17 @@ A speech assistant using Mozilla's [DeepSpeech engine](https://github.com/mozill
 The application is still experimental and requires recorded user input.
 
 ## Getting Started
-* Create a directory named `local` in the repository containing:
-    * `input.wav` representing the input audio
-    * `alphabet.txt` from the DeepSpeech model
-    * `lm.binary` from the DeepSpeech model
-    * `output_graph.pbmm` from the DeepSpeech model
-    * `trie` from the DeepSpeech model
-* A recent version of the DeepSpeech model can be obtained from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
+* `apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev`
+* Obtain a recent version of the DeepSpeech model from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
     * See [this README](https://github.com/mozilla/DeepSpeech#getting-the-pre-trained-model) for further instructions
+* Add the following file tree to the repository:
+    * `local`
+        * `input.wav` (input audio)
+        * `models` (the DeepSpeech model)
+            * `alphabet.txt`
+            * `lm.binary`
+            * `output_graph.pbmm`
+            * `trie`
 
-## Building and Running
-Use [Docker](https://docs.docker.com/):
-
-* `docker build . -t okpi:latest`
-* `docker run -v local:/app/local okpi:latest`
+## Running
+* `python main.py`
