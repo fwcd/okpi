@@ -3,10 +3,9 @@ A speech assistant specifically designed for Raspberry Pi using offline voice re
 
 The application is still experimental and requires recorded user input.
 
-## Cloning
-* `git clone --recurse-submodules https://github.com/fwcd/OkPi`
-
 ## Getting Started
+* `git submodule init`
+* `git submodule update`
 * Install Python dependencies:
     * `pip3 install -r requirements.txt`
 
