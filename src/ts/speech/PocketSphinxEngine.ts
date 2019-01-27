@@ -1,16 +1,20 @@
-import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 import { PsDecoder } from "pocketsphinx";
-import { Listener } from "../utils/ListenerList";
+import { RawAudioInput } from "./input/RawAudioInput";
+import { TextOutput } from "./output/TextOutput";
+import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private hotword?: string;
+	private output: TextOutput;
 	
 	public constructor(params: {
 		decoder: PsDecoder;
-		
+		input: RawAudioInput;
+		output: TextOutput;
 	}) {
 		this.decoder = params.decoder;
+		this.output = params.output;
 	}
 	
 	public setHotword(hotword: string): void {
@@ -19,14 +23,6 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	
 	public getHotword(): string {
 		return this.hotword;
-	}
-	
-	public addUtteranceListener(listener: Listener<string>): void {
-		// TODO
-	}
-	
-	public removeUtteranceListener(listener: Listener<string>): void {
-		// TODO
 	}
 	
 	public start(): void {

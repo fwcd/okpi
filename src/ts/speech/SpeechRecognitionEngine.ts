@@ -1,5 +1,3 @@
-import { Listener } from "../utils/ListenerList";
-
 export interface SpeechRecognitionEngine {
 	setHotword(hotword: string): void;
 	
@@ -8,8 +6,4 @@ export interface SpeechRecognitionEngine {
 	start(): void;
 	
 	stop(): void;
-	
-	addUtteranceListener(listener: Listener<string>): void;
-	
-	removeUtteranceListener(listener: Listener<string>): void;
 }
