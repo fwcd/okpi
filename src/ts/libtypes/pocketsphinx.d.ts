@@ -53,7 +53,11 @@ declare module "pocketsphinx" {
 		
 		NGramModelSet: {
 			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModelSet;
-		}
+		};
+		
+		LogMath: {
+			new(): PsLogMath;
+		};
 	};
 	
 	export interface PsConfig {
@@ -199,7 +203,7 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsLogMath {
-		
+		exp(prob: number): number;
 	}
 	
 	export interface PsIterator<T> {
