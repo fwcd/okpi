@@ -14,9 +14,9 @@ function main(): void {
 	
 	const modelDir = path.resolve(psRepo, "model", "en-us");
 	const config = new ps.Decoder.defaultConfig();
-	config.setString("-hmm", modelDir + "en-us");
-	config.setString("-dict", modelDir + "cmudict-en-us.dict");
-	config.setString("-lm", modelDir + "en-us.lm.bin");
+	config.setString("-hmm", path.resolve(modelDir, "en-us"));
+	config.setString("-dict", path.resolve(modelDir, "cmudict-en-us.dict"));
+	config.setString("-lm", path.resolve(modelDir, "en-us.lm.bin"));
 	const decoder = new ps.Decoder(config);
 	
 	fs.readFile(path.resolve(psRepo, "test", "data", "goforward.raw"), (err, data) => {
