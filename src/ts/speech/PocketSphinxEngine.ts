@@ -1,12 +1,13 @@
 import { PsDecoder } from "pocketsphinx";
-import { strContainsAny } from "../utils/StringUtils";
 import { RawAudioInput } from "./input/RawAudioInput";
 import { TextOutput } from "./output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
+const KEYPHRASE_SEARCH = "keyphraseSearch";
+
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
-	private hotwords: string[];
+	private hotword: string;
 	private input: RawAudioInput;
 	private output: TextOutput;
 	private listeningForUtt = false;
@@ -32,26 +33,9 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 			
 			if (hyp != null) {
 				const hypstr = hyp.hypstr; // The utterance
-				
-				if (this.listeningForUtt) {
-					// Listening for rest of utterance
-					
-					console.log("Heard '" + hypstr + "' while listening for utterance."); // TODO: Implement proper logging
-					this.output.accept(hypstr);
-					
-					this.listeningForUtt = false; // TODO: Implement a timeout here to listen for multiple words
-				} else if (strContainsAny(hypstr, this.hotwords, true)) {
-					// Heard the hotword
-					
-					console.log("Heard hotword '" + hypstr + "', now listening for utterance...");
-					this.listenForUtterance();
-				} else {
-					// Heard something that did not match the hotword
-					
-					console.log("Heard '" + hypstr + "' while waiting for hotword");
-					
-					// TODO: Clear the utterance cache (i.e. call nextUtt()) after a specified interval
-				}
+				console.log("Heard '" + hypstr + "' (including hotword), restarting search...");
+				// this.output.accept(hypstr); TODO!
+				this.nextUtt();
 			}
 		});
 	}
@@ -61,24 +45,14 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.decoder.startUtt();
 	}
 	
-	private listenForUtterance(): void {
-		this.nextUtt();
-		
-		this.listeningForUtt = true;
-		setTimeout(() => {
-			if (this.listeningForUtt) {
-				console.log("User timeout after " + this.uttTimeoutMs + " ms: Could not hear any utterances!");
-				this.listeningForUtt = false;
-			}
-		}, this.uttTimeoutMs);
+	public setHotword(hotword: string): void {
+		this.hotword = hotword;
+		this.decoder.setKeyphrase(KEYPHRASE_SEARCH, hotword);
+		this.decoder.setSearch(hotword)
 	}
 	
-	public setHotwords(...hotwords: string[]): void {
-		this.hotwords = hotwords;
-	}
-	
-	public getHotwords(): string[] {
-		return this.hotwords;
+	public getHotword(): string {
+		return this.hotword;
 	}
 	
 	public start(): void {

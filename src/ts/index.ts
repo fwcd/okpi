@@ -31,7 +31,7 @@ function main(): void {
 		uttTimeoutMs: 10000 // ms
 	});
 	
-	engine.setHotwords("ok computer", "okay computer");
+	engine.setHotword("ok computer");
 	engine.start();
 }
 
