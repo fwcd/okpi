@@ -25,5 +25,5 @@ declare module "mic" {
 		getAudioStream(): Transform;
 	}
 	
-	export = mic
+	export default mic;
 }
