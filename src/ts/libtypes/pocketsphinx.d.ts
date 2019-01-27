@@ -26,11 +26,11 @@ declare module "pocketsphinx" {
 		
 	};
 	
-	interface PsConfig {
+	export interface PsConfig {
 		setString(arg: string, value: string): void;
 	}
 	
-	interface PsDecoder {
+	export interface PsDecoder {
 		loadDict(fdict: string, ffilter: string, format: string): void;
 		
 		saveDict(dictfile: string, format: string): void;
@@ -48,9 +48,61 @@ declare module "pocketsphinx" {
 		startUtt(): void;
 		
 		endUtt(): void;
+		
+		processRaw(data: any, noSeach: boolean, fullUtt: boolean): number;
+		
+		hyp(): PsHypothesis;
+		
+		getFe(): PsFrontEnd;
+		
+		getFeat(): PsFeature;
+		
+		getInSpeech(): boolean;
+		
+		getFsg(name: string): PsFsgModel;
+		
+		setFsg(name: string, fsg: PsFsgModel): void;
+		
+		setJsgfFile(name: string, filePath: string): void;
+		
+		setJsgfString(name: string, jsgfString: string): void;
+		
+		getKws(name: string): string;
+		
+		setKws(name: string, keyfile: string): void;
+		
+		setKeyphrase(name: string, keyphrase: string): void;
+		
+		setAllphoneFile(name: string, lmfile: string): void;
+		
+		getLm(name: string): PsNGramModel;
+		
+		setLm(name: string, lm: PsNGramModel): void;
+		
+		setLmFile(name: string, filePath: string): void;
 	}
 	
-	interface PsLattice {
+	export interface PsLattice {
+		
+	}
+	
+	export interface PsHypothesis {
+		
+	}
+	
+	export interface PsFrontEnd {
+		
+	}
+	
+	export interface PsFeature {
+		
+	}
+	
+	export interface PsFsgModel {
+		
+	}
+	
+	export interface PsNGramModel {
 		
 	}
 }
