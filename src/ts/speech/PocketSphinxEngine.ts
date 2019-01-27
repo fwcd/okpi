@@ -2,13 +2,14 @@ import { PsDecoder } from "pocketsphinx";
 import { RawAudioInput } from "./input/RawAudioInput";
 import { TextOutput } from "./output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
+import { strContains } from "../utils/StringUtils";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private hotword?: string;
 	private input: RawAudioInput;
 	private output: TextOutput;
-	private listening = false;
+	private listeningForUtt = false;
 	private timeoutMs: number;
 	
 	public constructor(params: {
@@ -30,31 +31,44 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 			const hyp = this.decoder.hyp();
 			
 			if (hyp != null) {
-				const hypstr = hyp.hypstr;
+				const hypstr = hyp.hypstr; // The utterance
 				
-				if (this.listening) {
-					// TODO: Implement proper logging
-					console.log("Heard '" + hypstr + "' while listening for utterance.");
+				if (this.listeningForUtt) {
+					// Listening for rest of utterance
+					
+					console.log("Heard '" + hypstr + "' while listening for utterance."); // TODO: Implement proper logging
 					this.output.accept(hypstr);
 					
-					// TODO: Implement a timeout here to listen for multiple words
-					this.listening = false;
-				} else if (hypstr === this.hotword) {
+					this.listeningForUtt = false; // TODO: Implement a timeout here to listen for multiple words
+				} else if (strContains(hypstr, this.hotword)) {
+					// Heard the hotword
+					
 					console.log("Heard hotword '" + this.hotword + "', now listening for utterance...");
 					this.listenForUtterance();
 				} else {
+					// Heard something that did not match the hotword
+					
 					console.log("Heard '" + hypstr + "' while waiting for hotword");
+					
+					// TODO: Clear the utterance cache (i.e. call nextUtt()) after a specified interval
 				}
 			}
 		});
 	}
 	
+	private nextUtt(): void {
+		this.decoder.endUtt();
+		this.decoder.startUtt();
+	}
+	
 	private listenForUtterance(): void {
-		this.listening = true;
+		this.nextUtt();
+		
+		this.listeningForUtt = true;
 		window.setTimeout(() => {
-			if (this.listening) {
+			if (this.listeningForUtt) {
 				console.log("User timeout after " + this.timeoutMs + " ms: Could not hear any utterances!");
-				this.listening = false;
+				this.listeningForUtt = false;
 			}
 		}, this.timeoutMs);
 	}
