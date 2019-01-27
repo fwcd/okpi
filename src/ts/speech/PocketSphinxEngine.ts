@@ -5,6 +5,10 @@ import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
 const KEYPHRASE_SEARCH_KEY = "keyphraseSearch";
 
+enum ListenMode {
+	UTTERANCE, KEYPHRASE
+}
+
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private keyphrase: string;
@@ -12,6 +16,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private output: TextOutput;
 	private uttTimeoutMs: number;
 	private listening = false;
+	private mode = ListenMode.KEYPHRASE;
 	
 	public constructor(params: {
 		decoder: PsDecoder;
@@ -33,9 +38,27 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 			
 			if (hyp != null) {
 				const hypstr = hyp.hypstr; // The utterance
-				console.log("Heard '" + hypstr + "' (including hotword), restarting search...");
-				// this.output.accept(hypstr); TODO!
-				this.listenForNextKeyphrase();
+				
+				switch (this.mode) {
+					case ListenMode.KEYPHRASE: {
+						// Heard the keyphrase
+						console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
+						this.listenForNextUtterance();
+						
+						// Re-listen for keyphrases if it still listens for utterances after a given timeout
+						setTimeout(() => {
+							if (this.mode == ListenMode.UTTERANCE) {
+								this.listenForNextKeyphrase();
+							}
+						}, this.uttTimeoutMs);
+						break;
+					};
+					case ListenMode.UTTERANCE: {
+						// Heard an utterance
+						console.log("Heard utterance '" + hypstr + "'");
+						break;
+					};
+				}
 			}
 		});
 	}
@@ -43,12 +66,14 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private listenForNextKeyphrase(): void {
 		this.endUtt();
 		this.decoder.setSearch(KEYPHRASE_SEARCH_KEY);
+		this.mode = ListenMode.KEYPHRASE;
 		this.startUtt();
 	}
 	
 	private listenForNextUtterance(): void {
 		this.endUtt();
 		this.decoder.unsetSearch(KEYPHRASE_SEARCH_KEY);
+		this.mode = ListenMode.UTTERANCE;
 		this.startUtt();
 	}
 	
