@@ -18,6 +18,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^10.12.18",
+		"mic": "^2.1.2",
 		"typescript": "^3.2.4"
 	}
 }
