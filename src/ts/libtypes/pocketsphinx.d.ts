@@ -18,7 +18,9 @@ declare module "pocketsphinx" {
 			new(config: PsConfig): PsDecoder;
 		},
 		Lattice: {
-			new(): PsLattice;
+			new(filePath: string): PsLattice;
+			
+			new(decoder: PsDecoder, filePath: string): PsLattice;
 		}
 	};
 	
@@ -97,7 +99,9 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsLattice {
+		write(filePath: string): void;
 		
+		writeHtk(filePath: string): void;
 	}
 	
 	export interface PsHypothesis {
