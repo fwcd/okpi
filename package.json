@@ -13,7 +13,8 @@
 	"author": "fwcd",
 	"license": "MIT",
 	"dependencies": {
-		"pocketsphinx": "^5.0.7"
+		"pocketsphinx": "^5.0.7",
+		"say": "^0.15.0"
 	},
 	"devDependencies": {
 		"@types/node": "^10.12.18",
