@@ -1,12 +1,12 @@
 import { PsDecoder } from "pocketsphinx";
+import { strContainsAny } from "../utils/StringUtils";
 import { RawAudioInput } from "./input/RawAudioInput";
 import { TextOutput } from "./output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
-import { strContains } from "../utils/StringUtils";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
-	private hotword?: string;
+	private hotwords: string[];
 	private input: RawAudioInput;
 	private output: TextOutput;
 	private listeningForUtt = false;
@@ -40,10 +40,10 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 					this.output.accept(hypstr);
 					
 					this.listeningForUtt = false; // TODO: Implement a timeout here to listen for multiple words
-				} else if (strContains(hypstr, this.hotword)) {
+				} else if (strContainsAny(hypstr, this.hotwords)) {
 					// Heard the hotword
 					
-					console.log("Heard hotword '" + this.hotword + "', now listening for utterance...");
+					console.log("Heard hotword '" + hypstr + "', now listening for utterance...");
 					this.listenForUtterance();
 				} else {
 					// Heard something that did not match the hotword
@@ -73,12 +73,12 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		}, this.timeoutMs);
 	}
 	
-	public setHotword(hotword: string): void {
-		this.hotword = hotword;
+	public setHotwords(...hotword: string[]): void {
+		this.hotwords = hotword;
 	}
 	
-	public getHotword(): string {
-		return this.hotword;
+	public getHotwords(): string[] {
+		return this.hotwords;
 	}
 	
 	public start(): void {

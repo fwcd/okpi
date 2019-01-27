@@ -31,7 +31,7 @@ function main(): void {
 		timeoutMs: 10000 // ms
 	});
 	
-	engine.setHotword("okay pi");
+	engine.setHotwords("ok computer", "okay computer");
 	engine.start();
 }
 
