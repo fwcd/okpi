@@ -33,7 +33,25 @@ declare module "pocketsphinx" {
 	};
 	
 	export interface PsConfig {
-		setString(arg: string, value: string): void;
+		setString(key: string, value: string): void;
+		
+		setBoolean(key: string, value: boolean): void;
+		
+		setInt(key: string, value: number): void;
+		
+		setFloat(key: string, value: number): void;
+		
+		setStringExtra(key: string, value: string): void;
+		
+		exists(key: string): boolean;
+		
+		getBoolean(key: string): boolean;
+		
+		getInt(key: string): number;
+		
+		getFloat(key: string): number;
+		
+		getString(key: string): string;
 	}
 	
 	export interface PsDecoder {
