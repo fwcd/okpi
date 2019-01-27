@@ -50,6 +50,10 @@ declare module "pocketsphinx" {
 			
 			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModel;
 		};
+		
+		NGramModelSet: {
+			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModelSet;
+		}
 	};
 	
 	export interface PsConfig {
@@ -180,6 +184,18 @@ declare module "pocketsphinx" {
 		addWord(word: string, weight: number): number;
 		
 		prob(n: number, ptr: any): number;
+	}
+	
+	export interface PsNGramModelSet extends PsIterable<PsNGramModel> {
+		count(): number;
+		
+		add(model: PsNGramModel, name: string, weight: number, reuseWidmap: boolean): PsNGramModel;
+		
+		select(name: string): PsNGramModel;
+		
+		lookup(name: string): PsNGramModel;
+		
+		current(): string;
 	}
 	
 	export interface PsLogMath {
