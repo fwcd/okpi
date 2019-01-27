@@ -7,7 +7,7 @@ const KEYPHRASE_SEARCH = "keyphraseSearch";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
-	private hotword: string;
+	private keyphrase: string;
 	private input: RawAudioInput;
 	private output: TextOutput;
 	private listeningForUtt = false;
@@ -45,14 +45,14 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.decoder.startUtt();
 	}
 	
-	public setHotword(hotword: string): void {
-		this.hotword = hotword;
-		this.decoder.setKeyphrase(KEYPHRASE_SEARCH, hotword);
+	public setKeyphrase(keyphrase: string): void {
+		this.keyphrase = keyphrase;
+		this.decoder.setKeyphrase(KEYPHRASE_SEARCH, keyphrase);
 		this.decoder.setSearch(KEYPHRASE_SEARCH);
 	}
 	
-	public getHotword(): string {
-		return this.hotword;
+	public getKeyphrase(): string {
+		return this.keyphrase;
 	}
 	
 	public start(): void {

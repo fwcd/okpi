@@ -1,7 +1,7 @@
 export interface SpeechRecognitionEngine {
-	setHotword(hotword: string): void;
+	setKeyphrase(keyphrase: string): void;
 	
-	getHotword(): string;
+	getKeyphrase(): string;
 	
 	start(): void;
 	
