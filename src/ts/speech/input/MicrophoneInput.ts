@@ -9,13 +9,16 @@ export class MicrophoneInput implements RawAudioInput {
 	
 	public constructor(options: Mic.MicrophoneOptions) {
 		this.microphone = mic(options);
+		this.microphone.getAudioStream().on("audioProcessExitComplete", () => {
+			console.log("Exiting microphone stream");
+		});
+		this.microphone.getAudioStream().on("data", data => {
+			this.dataListeners.fire(data);
+		});
 	}
 	
 	public start(): void {
 		this.microphone.start();
-		this.microphone.getAudioStream().on("data", data => {
-			this.dataListeners.fire(data);
-		});
 	}
 	
 	public stop(): void {
