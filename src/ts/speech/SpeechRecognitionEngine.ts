@@ -1,5 +1,5 @@
 export interface SpeechRecognitionEngine {
-	setHotwords(...hotword: string[]): void;
+	setHotwords(...hotwords: string[]): void;
 	
 	getHotwords(): string[];
 	

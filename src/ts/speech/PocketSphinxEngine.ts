@@ -10,18 +10,18 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private input: RawAudioInput;
 	private output: TextOutput;
 	private listeningForUtt = false;
-	private timeoutMs: number;
+	private uttTimeoutMs: number;
 	
 	public constructor(params: {
 		decoder: PsDecoder;
 		input: RawAudioInput;
 		output: TextOutput;
-		timeoutMs: number;
+		uttTimeoutMs: number;
 	}) {
 		this.decoder = params.decoder;
 		this.input = params.input;
 		this.output = params.output;
-		this.timeoutMs = params.timeoutMs;
+		this.uttTimeoutMs = params.uttTimeoutMs;
 		this.setupListeners();
 	}
 	
@@ -40,7 +40,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 					this.output.accept(hypstr);
 					
 					this.listeningForUtt = false; // TODO: Implement a timeout here to listen for multiple words
-				} else if (strContainsAny(hypstr, this.hotwords)) {
+				} else if (strContainsAny(hypstr, this.hotwords, true)) {
 					// Heard the hotword
 					
 					console.log("Heard hotword '" + hypstr + "', now listening for utterance...");
@@ -67,14 +67,14 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.listeningForUtt = true;
 		window.setTimeout(() => {
 			if (this.listeningForUtt) {
-				console.log("User timeout after " + this.timeoutMs + " ms: Could not hear any utterances!");
+				console.log("User timeout after " + this.uttTimeoutMs + " ms: Could not hear any utterances!");
 				this.listeningForUtt = false;
 			}
-		}, this.timeoutMs);
+		}, this.uttTimeoutMs);
 	}
 	
-	public setHotwords(...hotword: string[]): void {
-		this.hotwords = hotword;
+	public setHotwords(...hotwords: string[]): void {
+		this.hotwords = hotwords;
 	}
 	
 	public getHotwords(): string[] {

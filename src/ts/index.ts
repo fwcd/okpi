@@ -28,7 +28,7 @@ function main(): void {
 			debug: true // TODO
 		}),
 		output: new SpeechOutput(),
-		timeoutMs: 10000 // ms
+		uttTimeoutMs: 10000 // ms
 	});
 	
 	engine.setHotwords("ok computer", "okay computer");
