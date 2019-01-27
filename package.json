@@ -4,6 +4,10 @@
 	"description": "Offline speech assistant for Raspberry Pi",
 	"main": "out/js/index.js",
 	"scripts": {
+		"watch": "tsc -w",
+		"compile": "tsc",
+		"start": "npm run compile && npm run launch",
+		"launch": "node ./out/js/index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "fwcd",
