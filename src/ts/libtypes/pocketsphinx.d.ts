@@ -58,6 +58,10 @@ declare module "pocketsphinx" {
 		LogMath: {
 			new(): PsLogMath;
 		};
+		
+		Jsgf: {
+			new(filePath: string): PsJsgf;
+		};
 	};
 	
 	export interface PsConfig {
@@ -200,6 +204,18 @@ declare module "pocketsphinx" {
 		lookup(name: string): PsNGramModel;
 		
 		current(): string;
+	}
+	
+	export interface PsJsgfRule {
+		
+	}
+	
+	export interface PsJsgf extends PsIterable<PsJsgfRule> {
+		getName(): string;
+		
+		getRule(name: string): PsJsgfRule;
+		
+		buildFsg(rule: PsJsgfRule, logmath: PsLogMath, lw: number): PsFsgModel;
 	}
 	
 	export interface PsLogMath {
