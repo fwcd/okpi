@@ -29,7 +29,9 @@ declare module "pocketsphinx" {
 	};
 	
 	export const sb: {
-		
+		FrontEnd: {
+			new(): PsFrontEnd;
+		}
 	};
 	
 	export interface PsConfig {
@@ -133,7 +135,9 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsFrontEnd {
+		outputSize(): number;
 		
+		processUtt(spch: string, nsamps: number, cepBlock: any): number;
 	}
 	
 	export interface PsFeature {
