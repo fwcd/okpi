@@ -10,7 +10,7 @@ function main(): void {
 	const psRepo = path.resolve(__dirname, "..", "..", "..", "pocketsphinx");
 	
 	if (!fs.existsSync(psRepo)) {
-		throw new Error("Could not find 'pocketsphinx' directory in the superdirectory of 'OkPi'. Try cloning it from GitHub: https://github.com/cmusphinx/pocketsphinx");
+		throw new Error("Could not find 'pocketsphinx' in the parent directory of 'OkPi'. Try cloning it from GitHub: https://github.com/cmusphinx/pocketsphinx");
 	}
 	
 	const modelDir = path.resolve(psRepo, "model", "en-us");

@@ -28,6 +28,7 @@ Speech assistant with offline voice recognition for Raspberry Pi.
 * `npm install`
 
 ## Launching
+* Make sure that the `OkPi` repository is in the same folder as `pocketsphinx`
 * `npm run start`
     * Or alternatively using watch mode:
     * `npm run watch`
