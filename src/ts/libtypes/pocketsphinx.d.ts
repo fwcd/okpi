@@ -43,6 +43,12 @@ declare module "pocketsphinx" {
 			new(): PsFrontEnd;
 		};
 		
+		FsgModel: {
+			new(name: string, logmath: PsLogMath, lw: number, n: number): PsFsgModel;
+			
+			new(filePath: string, logmath: PsLogMath, lw: number): PsFsgModel;
+		};
+		
 		NGramModel: {
 			fromIter(iter: any): PsNGramModel;
 			
@@ -181,7 +187,21 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsFsgModel {
+		wordId(word: string): number;
 		
+		wordAdd(word: string): number;
+		
+		transAdd(src: number, dst: number, logp: number, wid: number): void;
+		
+		nullTransAdd(src: number, dst: number, logp: number): number;
+		
+		tagTransAdd(src: number, dst: number, logp: number, wid: number): number;
+		
+		addSilence(silword: string, state: number, silprob: number): number;
+		
+		addAlt(baseword: string, altword: string): number;
+		
+		writefile(path: string): void;
 	}
 	
 	export interface PsNGramModel {
