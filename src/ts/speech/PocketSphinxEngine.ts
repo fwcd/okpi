@@ -18,6 +18,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		timeoutMs: number;
 	}) {
 		this.decoder = params.decoder;
+		this.input = params.input;
 		this.output = params.output;
 		this.timeoutMs = params.timeoutMs;
 		this.setupListeners();
