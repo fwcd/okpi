@@ -25,12 +25,13 @@ function main(): void {
 	const engine: SpeechRecognitionEngine = new PocketSphinxEngine({
 		decoder: new ps.Decoder(config),
 		input: new MicrophoneInput({
-			debug: true
+			debug: true // TODO
 		}),
 		output: new SpeechOutput(),
 		timeoutMs: 10000 // ms
 	});
 	
+	engine.setHotword("ok pi");
 	engine.start();
 }
 
