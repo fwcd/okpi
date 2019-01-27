@@ -65,7 +65,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.nextUtt();
 		
 		this.listeningForUtt = true;
-		window.setTimeout(() => {
+		setTimeout(() => {
 			if (this.listeningForUtt) {
 				console.log("User timeout after " + this.uttTimeoutMs + " ms: Could not hear any utterances!");
 				this.listeningForUtt = false;
