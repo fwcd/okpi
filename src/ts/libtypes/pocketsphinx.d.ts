@@ -167,7 +167,19 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsNGramModel {
+		write(filePath: string, ftype: number): void;
 		
+		strToType(str: string): number;
+		
+		typeToStr(type: number): string;
+		
+		casefold(kase: number): void;
+		
+		size(): number;
+		
+		addWord(word: string, weight: number): number;
+		
+		prob(n: number, ptr: any): number;
 	}
 	
 	export interface PsLogMath {
