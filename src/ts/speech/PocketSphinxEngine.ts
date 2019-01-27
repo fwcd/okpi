@@ -34,7 +34,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 				
 				if (this.listening) {
 					// TODO: Implement proper logging
-					console.log("Heard " + hypstr + " while listening for utterance.");
+					console.log("Heard '" + hypstr + "' while listening for utterance.");
 					this.output.accept(hypstr);
 					
 					// TODO: Implement a timeout here to listen for multiple words
@@ -42,6 +42,8 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 				} else if (hypstr === this.hotword) {
 					console.log("Heard hotword '" + this.hotword + "', now listening for utterance...");
 					this.listenForUtterance();
+				} else {
+					console.log("Heard '" + hypstr + "' while waiting for hotword");
 				}
 			}
 		});
