@@ -61,10 +61,12 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	}
 	
 	public start(): void {
-		// TODO
+		this.input.start();
+		this.decoder.startUtt();
 	}
 	
 	public stop(): void {
-		// TODO
+		this.input.stop();
+		this.decoder.endUtt();
 	}
 }
