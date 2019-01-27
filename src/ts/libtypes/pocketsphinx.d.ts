@@ -3,6 +3,7 @@
 // Sources: https://github.com/cmusphinx/pocketsphinx/blob/master/swig/pocketsphinx.i
 //          https://github.com/cmusphinx/pocketsphinx/blob/master/swig/ps_decoder.i
 //          https://github.com/cmusphinx/pocketsphinx/blob/master/swig/ps_lattice.i
+// TODO:    https://github.com/cmusphinx/sphinxbase/blob/master/swig/sphinxbase.i
 
 declare module "pocketsphinx" {
 	export const ps: {
@@ -21,6 +22,9 @@ declare module "pocketsphinx" {
 			new(filePath: string): PsLattice;
 			
 			new(decoder: PsDecoder, filePath: string): PsLattice;
+		},
+		Hypothesis: {
+			new(hypstr: string, bestScore: number, prob: number): PsHypothesis;
 		}
 	};
 	
@@ -105,7 +109,9 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsHypothesis {
-		
+		hypstr: string;
+		bestScore: number;
+		prob: number;
 	}
 	
 	export interface PsFrontEnd {
@@ -128,7 +134,11 @@ declare module "pocketsphinx" {
 		
 	}
 	
-	export interface PsSegmentList extends PsDecoder {}
+	export interface PsSegmentList {
+		
+	}
 	
-	export interface NBestList extends PsDecoder {}
+	export interface NBestList {
+		
+	}
 }
