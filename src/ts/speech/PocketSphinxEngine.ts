@@ -3,15 +3,15 @@ import { RawAudioInput } from "./input/RawAudioInput";
 import { TextOutput } from "./output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
-const KEYPHRASE_SEARCH = "keyphraseSearch";
+const KEYPHRASE_SEARCH_KEY = "keyphraseSearch";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private keyphrase: string;
 	private input: RawAudioInput;
 	private output: TextOutput;
-	private listeningForUtt = false;
 	private uttTimeoutMs: number;
+	private listening = false;
 	
 	public constructor(params: {
 		decoder: PsDecoder;
@@ -35,20 +35,40 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 				const hypstr = hyp.hypstr; // The utterance
 				console.log("Heard '" + hypstr + "' (including hotword), restarting search...");
 				// this.output.accept(hypstr); TODO!
-				this.nextUtt();
+				this.listenForNextKeyphrase();
 			}
 		});
 	}
 	
-	private nextUtt(): void {
-		this.decoder.endUtt();
-		this.decoder.startUtt();
+	private listenForNextKeyphrase(): void {
+		this.endUtt();
+		this.decoder.setSearch(KEYPHRASE_SEARCH_KEY);
+		this.startUtt();
+	}
+	
+	private listenForNextUtterance(): void {
+		this.endUtt();
+		this.decoder.unsetSearch(KEYPHRASE_SEARCH_KEY);
+		this.startUtt();
+	}
+	
+	private startUtt(): void {
+		if (!this.listening) {
+			this.decoder.startUtt();
+			this.listening = true;
+		}
+	}
+	
+	private endUtt(): void {
+		if (this.listening) {
+			this.decoder.endUtt();
+			this.listening = false;
+		}
 	}
 	
 	public setKeyphrase(keyphrase: string): void {
 		this.keyphrase = keyphrase;
-		this.decoder.setKeyphrase(KEYPHRASE_SEARCH, keyphrase);
-		this.decoder.setSearch(KEYPHRASE_SEARCH);
+		this.decoder.setKeyphrase(KEYPHRASE_SEARCH_KEY, keyphrase);
 	}
 	
 	public getKeyphrase(): string {
@@ -57,11 +77,11 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	
 	public start(): void {
 		this.input.start();
-		this.decoder.startUtt();
+		this.startUtt();
 	}
 	
 	public stop(): void {
 		this.input.stop();
-		this.decoder.endUtt();
+		this.endUtt();
 	}
 }
