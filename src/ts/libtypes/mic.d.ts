@@ -1,7 +1,9 @@
 declare module "mic" {
 	import { Transform } from "stream";
 	
-	function mic(options: {
+	function mic(options: MicrophoneOptions): Microphone;
+	
+	export interface MicrophoneOptions {
 		endian?: string;
 		bitwidth?: number;
 		encoding?: string;
@@ -11,7 +13,7 @@ declare module "mic" {
 		exitOnSilence?: number;
 		fileType?: string;
 		debug?: boolean;
-	}): Microphone;
+	}
 	
 	export interface Microphone {
 		start(): void;
