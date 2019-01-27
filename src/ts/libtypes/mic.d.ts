@@ -1,9 +1,5 @@
-declare module "mic" {
-	import { Transform } from "stream";
-	
-	function mic(options: MicrophoneOptions): Microphone;
-	
-	export interface MicrophoneOptions {
+declare namespace Mic {
+	interface MicrophoneOptions {
 		endian?: string;
 		bitwidth?: number;
 		encoding?: string;
@@ -15,7 +11,7 @@ declare module "mic" {
 		debug?: boolean;
 	}
 	
-	export interface Microphone {
+	interface Microphone<S> {
 		start(): void;
 		
 		stop(): void;
@@ -24,8 +20,14 @@ declare module "mic" {
 		
 		resume(): void;
 		
-		getAudioStream(): Transform;
+		getAudioStream(): S;
 	}
+}
+
+declare module "mic" {
+	import { Transform } from "stream";
 	
-	export default mic;
+	function mic(options: Mic.MicrophoneOptions): Mic.Microphone<Transform>;
+	
+	export = mic;
 }
