@@ -3,7 +3,13 @@
 // Sources: https://github.com/cmusphinx/pocketsphinx/blob/master/swig/pocketsphinx.i
 //          https://github.com/cmusphinx/pocketsphinx/blob/master/swig/ps_decoder.i
 //          https://github.com/cmusphinx/pocketsphinx/blob/master/swig/ps_lattice.i
-// TODO:    https://github.com/cmusphinx/sphinxbase/blob/master/swig/sphinxbase.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/sphinxbase.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/fe.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/feat.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/iterators.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/jsgf.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/logmath.i
+//          https://github.com/cmusphinx/sphinxbase/blob/master/swig/ngram_model.i
 
 declare module "pocketsphinx" {
 	export const ps: {
