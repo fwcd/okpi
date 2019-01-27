@@ -65,6 +65,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	
 	private listenForNextKeyphrase(): void {
 		this.endUtt();
+		this.decoder.setKeyphrase(KEYPHRASE_SEARCH_KEY, this.keyphrase);
 		this.decoder.setSearch(KEYPHRASE_SEARCH_KEY);
 		this.mode = ListenMode.KEYPHRASE;
 		this.startUtt();
@@ -102,7 +103,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	
 	public start(): void {
 		this.input.start();
-		this.startUtt();
+		this.listenForNextKeyphrase();
 	}
 	
 	public stop(): void {
