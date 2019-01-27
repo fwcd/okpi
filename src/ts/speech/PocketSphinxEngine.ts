@@ -6,8 +6,11 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private hotword?: string;
 	
-	public constructor(decoder: PsDecoder) {
-		this.decoder = decoder;
+	public constructor(params: {
+		decoder: PsDecoder;
+		
+	}) {
+		this.decoder = params.decoder;
 	}
 	
 	public setHotword(hotword: string): void {
