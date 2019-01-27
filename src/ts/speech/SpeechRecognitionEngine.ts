@@ -5,6 +5,10 @@ export interface SpeechRecognitionEngine {
 	
 	getHotword(): string;
 	
+	start(): void;
+	
+	stop(): void;
+	
 	addUtteranceListener(listener: Listener<string>): void;
 	
 	removeUtteranceListener(listener: Listener<string>): void;

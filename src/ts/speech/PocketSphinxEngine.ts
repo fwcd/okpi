@@ -28,4 +28,12 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	public removeUtteranceListener(listener: Listener<string>): void {
 		// TODO
 	}
+	
+	public start(): void {
+		// TODO
+	}
+	
+	public stop(): void {
+		// TODO
+	}
 }

@@ -11,9 +11,9 @@ declare module "mic" {
 		exitOnSilence?: number;
 		fileType?: string;
 		debug?: boolean;
-	}): Mic;
+	}): Microphone;
 	
-	interface Mic {
+	export interface Microphone {
 		start(): void;
 		
 		stop(): void;
