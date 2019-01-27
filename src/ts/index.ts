@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as say from "say";
 import { ps } from "pocketsphinx";
 
 function main(): void {
@@ -25,7 +26,7 @@ function main(): void {
 		decoder.startUtt();
 		decoder.processRaw(data, false, false);
 		decoder.endUtt();
-		console.log(decoder.hyp());
+		say.speak(decoder.hyp().hypstr);
 	});
 }
 
