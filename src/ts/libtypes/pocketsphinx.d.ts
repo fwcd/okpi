@@ -10,28 +10,46 @@ declare module "pocketsphinx" {
 		Decoder: {
 			defaultConfig: {
 				new(): PsConfig;
-			},
+			};
 			
 			fileConfig: {
 				new(filePath: string): PsConfig;
-			},
+			};
 			
 			new(config: PsConfig): PsDecoder;
-		},
+		};
+		
 		Lattice: {
 			new(filePath: string): PsLattice;
 			
 			new(decoder: PsDecoder, filePath: string): PsLattice;
-		},
+		};
+		
 		Hypothesis: {
 			new(hypstr: string, bestScore: number, prob: number): PsHypothesis;
-		}
+		};
+		
+		Segment: {
+			fromIter(iter: any): PsSegment;
+		};
+		
+		NBest: {
+			fromIter(iter: any): PsSegment;
+		};
 	};
 	
 	export const sb: {
 		FrontEnd: {
 			new(): PsFrontEnd;
-		}
+		};
+		
+		NGramModel: {
+			fromIter(iter: any): PsNGramModel;
+			
+			new(filePath: string): PsNGramModel;
+			
+			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModel;
+		};
 	};
 	
 	export interface PsConfig {
