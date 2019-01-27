@@ -1,7 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as say from "say";
 import { ps } from "pocketsphinx";
+import { MicrophoneInput } from "./speech/input/MicrophoneInput";
+import { SpeechOutput } from "./speech/output/SpeechOutput";
+import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
+import { SpeechRecognitionEngine } from "./speech/SpeechRecognitionEngine";
 
 function main(): void {
 	// Source: https://github.com/cmusphinx/node-pocketsphinx#example
@@ -18,16 +21,15 @@ function main(): void {
 	config.setString("-hmm", path.resolve(modelDir, "en-us"));
 	config.setString("-dict", path.resolve(modelDir, "cmudict-en-us.dict"));
 	config.setString("-lm", path.resolve(modelDir, "en-us.lm.bin"));
-	const decoder = new ps.Decoder(config);
 	
-	fs.readFile(path.resolve(psRepo, "test", "data", "goforward.raw"), (err, data) => {
-		if (err) console.log(err);
-		
-		decoder.startUtt();
-		decoder.processRaw(data, false, false);
-		decoder.endUtt();
-		say.speak(decoder.hyp().hypstr);
+	const engine: SpeechRecognitionEngine = new PocketSphinxEngine({
+		decoder: new ps.Decoder(config),
+		input: new MicrophoneInput({}),
+		output: new SpeechOutput(),
+		timeoutMs: 10000 // ms
 	});
+	
+	engine.start();
 }
 
 main();
