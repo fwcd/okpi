@@ -47,6 +47,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 						// Heard the keyphrase
 						console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
 						this.listenForNextUtterance();
+						this.output.accept("I have heard " + hypstr); // TODO
 						
 						// Re-listen for keyphrases if it still listens for utterances after a given timeout
 						setTimeout(() => {
