@@ -12,8 +12,8 @@
 //          https://github.com/cmusphinx/sphinxbase/blob/master/swig/ngram_model.i
 
 declare module "pocketsphinx" {
-	export const ps: {
-		Decoder: {
+	export namespace ps {
+		const Decoder: {
 			defaultConfig: {
 				new(): PsConfig;
 			};
@@ -25,37 +25,37 @@ declare module "pocketsphinx" {
 			new(config: PsConfig): PsDecoder;
 		};
 		
-		Lattice: {
+		const Lattice: {
 			new(filePath: string): PsLattice;
 			
 			new(decoder: PsDecoder, filePath: string): PsLattice;
 		};
 		
-		Hypothesis: {
+		const Hypothesis: {
 			new(hypstr: string, bestScore: number, prob: number): PsHypothesis;
 		};
 		
-		Segment: {
+		const Segment: {
 			fromIter(iter: any): PsSegment;
 		};
 		
-		NBest: {
+		const NBest: {
 			fromIter(iter: any): PsSegment;
 		};
-	};
+	}
 	
-	export const sb: {
-		FrontEnd: {
+	export namespace sb {
+		const FrontEnd: {
 			new(): PsFrontEnd;
 		};
 		
-		FsgModel: {
+		const FsgModel: {
 			new(name: string, logmath: PsLogMath, lw: number, n: number): PsFsgModel;
 			
 			new(filePath: string, logmath: PsLogMath, lw: number): PsFsgModel;
 		};
 		
-		NGramModel: {
+		const NGramModel: {
 			fromIter(iter: any): PsNGramModel;
 			
 			new(filePath: string): PsNGramModel;
@@ -63,24 +63,24 @@ declare module "pocketsphinx" {
 			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModel;
 		};
 		
-		NGramModelSet: {
+		const NGramModelSet: {
 			new(config: PsConfig, logmath: PsLogMath, filePath: string): PsNGramModelSet;
 		};
 		
-		LogMath: {
+		const LogMath: {
 			new(): PsLogMath;
 		};
 		
-		Jsgf: {
+		const Jsgf: {
 			new(filePath: string): PsJsgf;
 		};
 		
-		JsgfRule: {
+		const JsgfRule: {
 			fromIter(iter: any): PsJsgfRule;
 			
 			new(): PsJsgfRule;
 		};
-	};
+	}
 	
 	export interface PsConfig {
 		setString(key: string, value: string): void;
