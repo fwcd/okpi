@@ -134,11 +134,32 @@ declare module "pocketsphinx" {
 		
 	}
 	
-	export interface PsSegmentList {
-		
+	export interface PsIterator<T> {
+		next(): T | null;
 	}
 	
-	export interface NBestList {
-		
+	export interface PsIterable<T> {
+		iter(): PsIterator<T>;
 	}
+	
+	export interface PsSegment {
+		word: string;
+		ascore: number;
+		lscore: number;
+		lback: number;
+		prob: number;
+		startFrame: number;
+		endFrame: number;
+	}
+	
+	export interface PsNBest {
+		hypstr: string;
+		score: number;
+		
+		hyp(): PsHypothesis;
+	}
+	
+	export interface PsSegmentList extends PsIterable<PsSegment> {}
+	
+	export interface PsNBestList extends PsIterable<PsNBest> {}
 }
