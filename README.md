@@ -14,3 +14,10 @@ Speech assistant with offline voice recognition for Raspberry Pi.
 		* `export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig`
 		* `ln -s /usr/bin/swig3.0 /usr/bin/swig` (Create a symlink for `swig3.0`)
 	* `npm install cmake-js -g`
+	* `npm install`
+
+## Launching
+* `npm run start`
+	* Or alternatively using watch mode:
+	* `npm run watch`
+	* `npm run launch` (in a separate terminal)
