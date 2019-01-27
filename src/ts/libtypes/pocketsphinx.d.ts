@@ -80,6 +80,20 @@ declare module "pocketsphinx" {
 		setLm(name: string, lm: PsNGramModel): void;
 		
 		setLmFile(name: string, filePath: string): void;
+		
+		getLogmath(): PsLogMath;
+		
+		setSearch(searchName: string): void;
+		
+		unsetSearch(searchName: string): void;
+		
+		getSearch(): string;
+		
+		nFrames(): number;
+		
+		seg(): PsSegmentList;
+		
+		nbest(): PsSegmentList;
 	}
 	
 	export interface PsLattice {
@@ -105,4 +119,12 @@ declare module "pocketsphinx" {
 	export interface PsNGramModel {
 		
 	}
+	
+	export interface PsLogMath {
+		
+	}
+	
+	export interface PsSegmentList extends PsDecoder {}
+	
+	export interface NBestList extends PsDecoder {}
 }
