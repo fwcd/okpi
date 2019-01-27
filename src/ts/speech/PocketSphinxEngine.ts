@@ -27,18 +27,22 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private setupListeners(): void {
 		this.input.addDataListener(data => {
 			this.decoder.processRaw(data, false, false);
-			const hyp = this.decoder.hyp().hypstr;
+			const hyp = this.decoder.hyp();
 			
-			if (this.listening) {
-				// TODO: Implement proper logging
-				console.log("Heard " + hyp + " while listening for utterance.");
-				this.output.accept(hyp);
+			if (hyp != null) {
+				const hypstr = hyp.hypstr;
 				
-				// TODO: Implement a timeout here to listen for multiple words
-				this.listening = false;
-			} else if (hyp === this.hotword) {
-				console.log("Heard hotword '" + this.hotword + "', now listening for utterance...");
-				this.listenForUtterance();
+				if (this.listening) {
+					// TODO: Implement proper logging
+					console.log("Heard " + hypstr + " while listening for utterance.");
+					this.output.accept(hypstr);
+					
+					// TODO: Implement a timeout here to listen for multiple words
+					this.listening = false;
+				} else if (hypstr === this.hotword) {
+					console.log("Heard hotword '" + this.hotword + "', now listening for utterance...");
+					this.listenForUtterance();
+				}
 			}
 		});
 	}
