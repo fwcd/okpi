@@ -62,6 +62,12 @@ declare module "pocketsphinx" {
 		Jsgf: {
 			new(filePath: string): PsJsgf;
 		};
+		
+		JsgfRule: {
+			fromIter(iter: any): PsJsgfRule;
+			
+			new(): PsJsgfRule;
+		};
 	};
 	
 	export interface PsConfig {
@@ -207,7 +213,9 @@ declare module "pocketsphinx" {
 	}
 	
 	export interface PsJsgfRule {
+		getName(): string;
 		
+		isPublic(): boolean;
 	}
 	
 	export interface PsJsgf extends PsIterable<PsJsgfRule> {
