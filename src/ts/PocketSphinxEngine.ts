@@ -1,5 +1,5 @@
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
-import { ps, PsDecoder } from "pocketsphinx";
+import { PsDecoder } from "pocketsphinx";
 import { Listener } from "./utils/ListenerList";
 
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
