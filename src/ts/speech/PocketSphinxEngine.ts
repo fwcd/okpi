@@ -48,7 +48,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	public setHotword(hotword: string): void {
 		this.hotword = hotword;
 		this.decoder.setKeyphrase(KEYPHRASE_SEARCH, hotword);
-		this.decoder.setSearch(hotword)
+		this.decoder.setSearch(KEYPHRASE_SEARCH);
 	}
 	
 	public getHotword(): string {
