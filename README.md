@@ -21,7 +21,7 @@ Speech assistant with offline voice recognition for Raspberry Pi.
 ### Say.js
 
 * Install Festival with a default voice:
-    * `apt-get install festival festvox-kallpc16k`
+    * `apt-get install festival festvox-rablpc16k`
 
 ### NPM Dependencies
 
