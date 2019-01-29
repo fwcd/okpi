@@ -7,7 +7,7 @@ import { OutputFacade } from "../../output/facade/OutputFacade";
  */
 export class ClockSkill implements Skill {
 	private utterances: string[] = [
-		"what time is it"
+		"what time .*"
 	];
 	
 	public invoke(intent: Intent, out: OutputFacade): void {

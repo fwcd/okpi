@@ -15,7 +15,10 @@ export interface Skill {
 	 * `set a timer for {minutes} minutes`
 	 * 
 	 * Parameter placeholders are enclosed in
-	 * curly braces.
+	 * curly braces. Additionally, the usual
+	 * regex syntax can be used (which implies
+	 * that any regex characters have to be
+	 * escaped too).
 	 */
 	getUtterances(): string[];
 }

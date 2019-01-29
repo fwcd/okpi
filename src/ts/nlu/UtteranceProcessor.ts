@@ -1,9 +1,8 @@
-import { Skill } from "../interaction/Skill";
-import { TextOutput } from "../output/text/TextOutput";
-import { Intent } from "../interaction/Intent";
-import { OutputFacade } from "../output/facade/OutputFacade";
-import { escapeRegex } from "../utils/StringUtils";
 import { DictIntent } from "../interaction/DictIntent";
+import { Intent } from "../interaction/Intent";
+import { Skill } from "../interaction/Skill";
+import { OutputFacade } from "../output/facade/OutputFacade";
+import { TextOutput } from "../output/text/TextOutput";
 
 interface UtteranceMatch {
 	text: string;
@@ -74,7 +73,7 @@ export class UtteranceProcessor implements TextOutput {
 	/**
 	 * Tries to match an utterance pattern against a string.
 	 * The pattern contains placeholders which are describing
-	 * the parameters.
+	 * the parameters and additionally uses regex syntax.
 	 * 
 	 * `set a timer for {minutes} minutes`
 	 * 
@@ -109,7 +108,7 @@ export class UtteranceProcessor implements TextOutput {
 			let c = pattern.charAt(i);
 			if (c === "{") {
 				// Append to regex
-				regex += escapeRegex(literal) + "(.+?)";
+				regex += literal + "(.+?)";
 				literal = "";
 				
 				// Add parameter
@@ -137,7 +136,7 @@ export class UtteranceProcessor implements TextOutput {
 		}
 		
 		if (literal.length > 0) {
-			regex += escapeRegex(literal);
+			regex += literal;
 		}
 		
 		return {
