@@ -19,6 +19,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private listening = false;
 	private mode = ListenMode.KEYPHRASE;
 	private uttHandleTask: DelayedTask<string>;
+	private lastHypstr: string; // The last raw utterance (hypothesis string)
 	
 	public constructor(params: {
 		decoder: PsDecoder;
@@ -46,25 +47,31 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 			const hyp = this.decoder.hyp();
 			
 			if (hyp != null) {
-				const hypstr = hyp.hypstr; // The utterance
+				const hypstr = hyp.hypstr; // The utterance (hypothesis string)
 				
-				switch (this.mode) {
-					case ListenMode.KEYPHRASE: {
-						// Heard the keyphrase
-						console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
-						this.listenForNextUtterance();
-						break;
-					};
-					case ListenMode.UTTERANCE: {
-						// Heard an utterance while in utterance mode
-						console.log("Heard utterance '" + hypstr + "'..."); // TODO: Better logging
-						
-						// Wait for the user to complete his utterance
-						// by resetting the task timeout each time he speaks
-						this.uttHandleTask.restart(hypstr);
-						break;
-					};
+				if (hypstr !== this.lastHypstr) {
+					// User has said something new
+					
+					switch (this.mode) {
+						case ListenMode.KEYPHRASE: {
+							// Heard the keyphrase
+							console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
+							this.listenForNextUtterance();
+							break;
+						};
+						case ListenMode.UTTERANCE: {
+							// Heard an utterance while in utterance mode
+							console.log("Heard utterance '" + hypstr + "'..."); // TODO: Better logging
+							
+							// Wait for the user to complete his utterance
+							// by resetting the task timeout each time he speaks
+							this.uttHandleTask.restart(hypstr);
+							break;
+						};
+					}
 				}
+				
+				this.lastHypstr = hypstr;
 			}
 		});
 	}
