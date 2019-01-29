@@ -1,5 +1,5 @@
 # OkPi
-Speech assistant with offline voice recognition for Raspberry Pi.
+Virtual assistant with offline voice recognition. Despite being primarily designed for Raspberry Pi, it should compile on any computer running Linux or macOS.
 
 ## Installation
 
