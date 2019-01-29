@@ -38,7 +38,7 @@ function main(): void {
 			}),
 			uttResponseTime: 1000 // ms
 		}),
-		keyphrase: "ok computer",
+		keyphrase: "ok pi",
 		output: new SpeakerOutput(inputLock)
 	});
 	
