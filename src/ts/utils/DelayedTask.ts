@@ -4,20 +4,20 @@
  * is delayed by a certain amount of milliseconds,
  * until it finally runs once the time has passed.
  */
-export class DelayedTask {
-	private task: () => void;
+export class DelayedTask<T> {
+	private task: (input: T) => void;
 	private minimumMs: number;
 	private timeoutHandle?: any;
 	
-	public constructor(task: () => void, minimumMs: number) {
+	public constructor(task: (input: T) => void, minimumMs: number) {
 		this.task = task;
 		this.minimumMs = minimumMs;
 	}
 	
-	public restart(): void {
+	public restart(input: T): void {
 		if (this.timeoutHandle) {
 			window.clearTimeout(this.timeoutHandle);
 		}
-		this.timeoutHandle = window.setTimeout(() => this.task(), this.minimumMs);
+		this.timeoutHandle = window.setTimeout(() => this.task(input), this.minimumMs);
 	}
 }

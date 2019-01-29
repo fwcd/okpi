@@ -1,6 +1,7 @@
 import { PsDecoder } from "pocketsphinx";
 import { AudioInput } from "../input/AudioInput";
 import { TextOutput } from "../output/text/TextOutput";
+import { DelayedTask } from "../utils/DelayedTask";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
 const KEYPHRASE_SEARCH_KEY = "keyphraseSearch";
@@ -15,19 +16,28 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private input: AudioInput;
 	private output?: TextOutput;
 	private uttTimeoutMs: number;
+	private defaultSearchKey: string;
 	private listening = false;
 	private mode = ListenMode.KEYPHRASE;
-	private defaultSearchKey: string;
+	private uttHandleTask: DelayedTask<string>;
 	
 	public constructor(params: {
 		decoder: PsDecoder;
 		input: AudioInput;
 		uttTimeoutMs: number;
+		uttResponseTime: number;
 	}) {
 		this.decoder = params.decoder;
 		this.input = params.input;
 		this.uttTimeoutMs = params.uttTimeoutMs;
 		this.defaultSearchKey = this.decoder.getSearch();
+		this.uttHandleTask = new DelayedTask(input => {
+			if (this.output && this.mode == ListenMode.UTTERANCE) {
+				// Handle the utterance and listen for the next keyphrase
+				this.output.accept(input);
+				this.listenForNextKeyphrase();
+			}
+		}, params.uttResponseTime);
 		
 		this.setupListeners();
 	}
@@ -45,23 +55,13 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 						// Heard the keyphrase
 						console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
 						this.listenForNextUtterance();
-						
-						// TODO: Implement proper responses (in the utterance listen mode below)
-						// and block the data input (add a boolean flag) while the output is running,
-						// so that the speaker output does not feed back into the microphone
-						this.output.accept("I have heard " + hypstr);
-						
-						// Re-listen for keyphrases if it still listens for utterances after a given timeout
-						setTimeout(() => {
-							if (this.mode == ListenMode.UTTERANCE) {
-								this.listenForNextKeyphrase();
-							}
-						}, this.uttTimeoutMs);
 						break;
 					};
 					case ListenMode.UTTERANCE: {
-						// Heard an utterance
-						this.output.accept(hypstr);
+						// Heard an utterance while in utterance mode
+						// Wait for the user to complete his utterance
+						// by resetting the task timeout each time he speaks
+						this.uttHandleTask.restart(hypstr);
 						break;
 					};
 				}
