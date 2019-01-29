@@ -13,7 +13,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private keyphrase: string;
 	private input: AudioInput;
-	private output: TextOutput;
+	private output?: TextOutput;
 	private uttTimeoutMs: number;
 	private listening = false;
 	private mode = ListenMode.KEYPHRASE;
@@ -22,12 +22,10 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	public constructor(params: {
 		decoder: PsDecoder;
 		input: AudioInput;
-		output: TextOutput;
 		uttTimeoutMs: number;
 	}) {
 		this.decoder = params.decoder;
 		this.input = params.input;
-		this.output = params.output;
 		this.uttTimeoutMs = params.uttTimeoutMs;
 		this.defaultSearchKey = this.decoder.getSearch();
 		
@@ -63,7 +61,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 					};
 					case ListenMode.UTTERANCE: {
 						// Heard an utterance
-						console.log("Heard utterance '" + hypstr + "'");
+						this.output.accept(hypstr);
 						break;
 					};
 				}
@@ -102,6 +100,10 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	public setKeyphrase(keyphrase: string): void {
 		this.keyphrase = keyphrase;
 		this.decoder.setKeyphrase(KEYPHRASE_SEARCH_KEY, keyphrase);
+	}
+	
+	public setOutput(output: TextOutput): void {
+		this.output = output;
 	}
 	
 	public getKeyphrase(): string {
