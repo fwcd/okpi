@@ -1,4 +1,4 @@
-import { Listener } from "../../utils/ListenerList";
+import { Listener } from "../utils/ListenerList";
 
 export interface AudioInput {
 	start(): void;
