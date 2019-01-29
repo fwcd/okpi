@@ -4,6 +4,10 @@ import { Transform } from "stream";
 import mic = require("mic");
 import { InputLock } from "./InputLock";
 
+interface MicrophoneInputParams extends Mic.MicrophoneOptions {
+	lock?: InputLock;
+}
+
 /**
  * Streams raw audio input from a microphone.
  */
@@ -12,8 +16,9 @@ export class MicrophoneInput implements AudioInput {
 	private lock?: InputLock;
 	private dataListeners = new ListenerList<any>();
 	
-	public constructor(options: Mic.MicrophoneOptions) {
-		this.microphone = mic(options);
+	public constructor(params: MicrophoneInputParams) {
+		this.lock = params.lock;
+		this.microphone = mic(params);
 		this.microphone.getAudioStream().on("audioProcessExitComplete", () => {
 			console.log("Exiting microphone stream"); // TODO: Logging
 		});
