@@ -11,4 +11,12 @@ export class UtteranceProcessor {
 		// Register default skills
 		new ClockSkill()
 	];
+	
+	public register(skill: Skill): void {
+		this.skills.push(skill);
+	}
+	
+	public unregister(skill: Skill): void {
+		this.skills.splice(this.skills.indexOf(skill), 1);
+	}
 }
