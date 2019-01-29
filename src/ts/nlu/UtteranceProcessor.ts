@@ -133,6 +133,7 @@ export class UtteranceProcessor implements TextOutput {
 			} else {
 				literal += c;
 			}
+			i++;
 		}
 		
 		if (literal.length > 0) {
