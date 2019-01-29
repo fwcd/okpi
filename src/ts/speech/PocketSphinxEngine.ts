@@ -1,5 +1,5 @@
 import { PsDecoder } from "pocketsphinx";
-import { RawAudioInput } from "./input/RawAudioInput";
+import { AudioInput } from "./input/AudioInput";
 import { TextOutput } from "./output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
@@ -12,7 +12,7 @@ enum ListenMode {
 export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private decoder: PsDecoder;
 	private keyphrase: string;
-	private input: RawAudioInput;
+	private input: AudioInput;
 	private output: TextOutput;
 	private uttTimeoutMs: number;
 	private listening = false;
@@ -21,7 +21,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	
 	public constructor(params: {
 		decoder: PsDecoder;
-		input: RawAudioInput;
+		input: AudioInput;
 		output: TextOutput;
 		uttTimeoutMs: number;
 	}) {

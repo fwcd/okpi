@@ -1,6 +1,6 @@
 import { Listener } from "../../utils/ListenerList";
 
-export interface RawAudioInput {
+export interface AudioInput {
 	start(): void;
 	
 	stop(): void;

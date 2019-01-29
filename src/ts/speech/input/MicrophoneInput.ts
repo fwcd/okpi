@@ -1,9 +1,9 @@
-import { RawAudioInput } from "./RawAudioInput";
+import { AudioInput } from "./AudioInput";
 import { ListenerList, Listener } from "../../utils/ListenerList";
 import { Transform } from "stream";
 import mic = require("mic");
 
-export class MicrophoneInput implements RawAudioInput {
+export class MicrophoneInput implements AudioInput {
 	private microphone: Mic.Microphone<Transform>;
 	private dataListeners = new ListenerList<any>();
 	
