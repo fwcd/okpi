@@ -27,7 +27,7 @@ function main(): void {
 	const engine: SpeechRecognitionEngine = new PocketSphinxEngine({
 		decoder: new ps.Decoder(config),
 		input: new MicrophoneInput({
-			debug: true // TODO
+			debug: false
 		}),
 		output: new SpeechOutput(),
 		uttTimeoutMs: 10000 // ms
