@@ -131,7 +131,7 @@ export class UtteranceProcessor implements TextOutput {
 				parameters.push(parameter);
 			} else if (c === " ") {
 				// Insensitivity to multiple spaces
-				regex += "\\s+";
+				literal += "\\s+";
 			} else {
 				literal += c;
 			}
