@@ -3,9 +3,9 @@
  * should be read or not (thus "locking" the input).
  */
 export class InputLock {
-	private inputEnabled = true;
+	private locked = false;
 	
-	public setInputEnabled(inputEnabled: boolean): void { this.inputEnabled = inputEnabled; }
+	public setLocked(locked: boolean): void { this.locked = locked; }
 	
-	public isInputEnabled(): boolean { return this.inputEnabled; }
+	public isLocked(): boolean { return this.locked; }
 }
