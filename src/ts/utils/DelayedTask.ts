@@ -16,8 +16,8 @@ export class DelayedTask<T> {
 	
 	public restart(input: T): void {
 		if (this.timeoutHandle) {
-			window.clearTimeout(this.timeoutHandle);
+			clearTimeout(this.timeoutHandle);
 		}
-		this.timeoutHandle = window.setTimeout(() => this.task(input), this.minimumMs);
+		this.timeoutHandle = setTimeout(() => this.task(input), this.minimumMs);
 	}
 }

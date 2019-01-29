@@ -34,6 +34,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.uttHandleTask = new DelayedTask(input => {
 			if (this.output && this.mode == ListenMode.UTTERANCE) {
 				// Handle the utterance and listen for the next keyphrase
+				console.log("Processing utterance '" + input + "'..."); // TODO: Better logging
 				this.output.accept(input);
 				this.listenForNextKeyphrase();
 			}
@@ -59,6 +60,8 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 					};
 					case ListenMode.UTTERANCE: {
 						// Heard an utterance while in utterance mode
+						console.log("Heard utterance '" + hypstr + "'..."); // TODO: Better logging
+						
 						// Wait for the user to complete his utterance
 						// by resetting the task timeout each time he speaks
 						this.uttHandleTask.restart(hypstr);
