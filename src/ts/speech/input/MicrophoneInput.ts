@@ -3,6 +3,9 @@ import { ListenerList, Listener } from "../../utils/ListenerList";
 import { Transform } from "stream";
 import mic = require("mic");
 
+/**
+ * Streams raw audio input from a microphone.
+ */
 export class MicrophoneInput implements AudioInput {
 	private microphone: Mic.Microphone<Transform>;
 	private dataListeners = new ListenerList<any>();
