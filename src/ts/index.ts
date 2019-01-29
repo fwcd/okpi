@@ -5,6 +5,8 @@ import { MicrophoneInput } from "./speech/input/MicrophoneInput";
 import { SpeechOutput } from "./speech/output/SpeechOutput";
 import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
 import { SpeechRecognitionEngine } from "./speech/SpeechRecognitionEngine";
+import { SpeechAssistant } from "./assistant/SpeechAssistant";
+import { OkPiAssistant } from "./assistant/OkPiAssistant";
 
 function main(): void {
 	// Source: https://github.com/cmusphinx/node-pocketsphinx#example
@@ -30,8 +32,10 @@ function main(): void {
 		output: new SpeechOutput(),
 		uttTimeoutMs: 10000 // ms
 	});
+	const assistant: SpeechAssistant = new OkPiAssistant(engine);
 	
 	engine.setKeyphrase("ok computer");
+	assistant.launch();
 	engine.start();
 }
 
