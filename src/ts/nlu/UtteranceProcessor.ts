@@ -3,6 +3,7 @@ import { Intent } from "../interaction/Intent";
 import { Skill } from "../interaction/Skill";
 import { OutputFacade } from "../output/facade/OutputFacade";
 import { TextOutput } from "../output/text/TextOutput";
+import { LOG } from "../utils/Logger";
 
 interface UtteranceMatch {
 	text: string;
@@ -84,6 +85,8 @@ export class UtteranceProcessor implements TextOutput {
 	private matchIntent(text: string, pattern: string): Intent | null {
 		const uttPattern = this.toUtterancePattern(pattern);
 		const groups = uttPattern.regex.exec(text);
+		
+		LOG.debug("Matched '{}' against regex '{}'", text, uttPattern.regex.source);
 		
 		if (groups == null) {
 			return null;
