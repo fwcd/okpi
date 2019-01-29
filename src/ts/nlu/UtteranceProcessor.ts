@@ -3,6 +3,7 @@ import { TextOutput } from "../output/TextOutput";
 import { Intent } from "../interaction/Intent";
 import { OutputFacade } from "../output/OutputFacade";
 import { escapeRegex } from "../utils/StringUtils";
+import { DictIntent } from "../interaction/DictIntent";
 
 interface UtteranceMatch {
 	text: string;
@@ -58,14 +59,23 @@ export class UtteranceProcessor implements TextOutput {
 	 * @returns The intent or null if the text does not match
 	 */
 	private matchIntent(text: string, pattern: string): Intent | null {
-		const regex = this.toRegex(pattern);
+		const uttPattern = this.toUtterancePattern(pattern);
+		const groups = uttPattern.regex.exec(text);
+		
+		if (groups == null) {
+			return null;
+		} else {
+			const dict: { [keys: string]: string; } = {};
+			groups.forEach((str, i) => dict[uttPattern.parameters[i]] = str);
+			return new DictIntent(dict);
+		}
 	}
 	
 	/**
 	 * Converts an utterance pattern to a regular expression
 	 * and a list of parameters.
 	 */
-	private toRegex(pattern: string): UtterancePattern {
+	private toUtterancePattern(pattern: string): UtterancePattern {
 		let regex = "";
 		let literal = "";
 		let i = 0;
