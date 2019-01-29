@@ -17,7 +17,9 @@ export class SpeakerOutput implements OutputFacade {
 	public output(text: string): void {
 		this.inputLock.setLocked(true);
 		say.speak(text, null, null, err => {
-			LOG.error("An error occurred while speaking: {}", err);
+			if (err) {
+				LOG.error("An error occurred while speaking: {}", err);
+			}
 			
 			// Unlock the input after speaking
 			this.inputLock.setLocked(false);
