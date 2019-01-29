@@ -1,5 +1,4 @@
 import { Skill } from "../interaction/Skill";
-import { ClockSkill } from "../interaction/skills/ClockSkill";
 
 /**
  * Processes the (natural language) user input,
@@ -7,10 +6,7 @@ import { ClockSkill } from "../interaction/skills/ClockSkill";
  * to the appropriate Skill.
  */
 export class UtteranceProcessor {
-	private skills: Skill[] = [
-		// Register default skills
-		new ClockSkill()
-	];
+	private skills: Skill[] = [];
 	
 	public register(skill: Skill): void {
 		this.skills.push(skill);

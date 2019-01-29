@@ -10,8 +10,12 @@ export class OkPiAssistant implements SpeechAssistant {
 	private engine: SpeechRecognitionEngine;
 	private uttProcessor = new UtteranceProcessor();
 	
-	public constructor(engine: SpeechRecognitionEngine) {
-		this.engine = engine;
+	public constructor(params: {
+		engine: SpeechRecognitionEngine,
+		keyphrase: string
+	}) {
+		this.engine = params.engine;
+		this.engine.setKeyphrase(params.keyphrase);
 	}
 	
 	public launch(): void {
@@ -24,5 +28,9 @@ export class OkPiAssistant implements SpeechAssistant {
 	
 	public unregisterSkills(...skills: Skill[]): void {
 		skills.forEach(skill => this.uttProcessor.unregister(skill));
+	}
+	
+	public setKeyphrase(keyphrase: string): void {
+		this.engine.setKeyphrase(keyphrase);
 	}
 }

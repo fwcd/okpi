@@ -6,4 +6,6 @@ export interface SpeechAssistant {
 	registerSkills(...skills: Skill[]): void;
 	
 	unregisterSkills(...skills: Skill[]): void;
+	
+	setKeyphrase(keyphrase: string): void;
 }

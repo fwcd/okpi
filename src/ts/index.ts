@@ -7,6 +7,7 @@ import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
 import { SpeechRecognitionEngine } from "./speech/SpeechRecognitionEngine";
 import { SpeechAssistant } from "./assistant/SpeechAssistant";
 import { OkPiAssistant } from "./assistant/OkPiAssistant";
+import { ClockSkill } from "./interaction/skills/ClockSkill";
 
 function main(): void {
 	// Source: https://github.com/cmusphinx/node-pocketsphinx#example
@@ -24,19 +25,24 @@ function main(): void {
 	config.setString("-dict", path.resolve(modelDir, "cmudict-en-us.dict"));
 	config.setString("-lm", path.resolve(modelDir, "en-us.lm.bin"));
 	
-	const engine: SpeechRecognitionEngine = new PocketSphinxEngine({
-		decoder: new ps.Decoder(config),
-		input: new MicrophoneInput({
-			debug: false
+	const assistant: SpeechAssistant = new OkPiAssistant({
+		engine: new PocketSphinxEngine({
+			decoder: new ps.Decoder(config),
+			input: new MicrophoneInput({
+				debug: false
+			}),
+			output: new SpeechOutput(),
+			uttTimeoutMs: 10000 // ms
 		}),
-		output: new SpeechOutput(),
-		uttTimeoutMs: 10000 // ms
+		keyphrase: "ok computer"
 	});
-	const assistant: SpeechAssistant = new OkPiAssistant(engine);
 	
-	engine.setKeyphrase("ok computer");
+	assistant.registerSkills(
+		// Register default skills
+		new ClockSkill()
+	);
+	
 	assistant.launch();
-	engine.start();
 }
 
 main();
