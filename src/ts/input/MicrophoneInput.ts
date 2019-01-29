@@ -1,5 +1,5 @@
 import { AudioInput } from "./AudioInput";
-import { ListenerList, Listener } from "../../utils/ListenerList";
+import { ListenerList, Listener } from "../utils/ListenerList";
 import { Transform } from "stream";
 import mic = require("mic");
 

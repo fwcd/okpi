@@ -4,7 +4,6 @@ Speech assistant with offline voice recognition for Raspberry Pi.
 ## Installation
 
 ### Pocket Sphinx
-
 * The PocketSphinx installation currently requires Node.js 6
     * This can be achieved by using a version manager such as [nvm](https://github.com/creationix/nvm):
         * `nvm install 6`
@@ -19,12 +18,10 @@ Speech assistant with offline voice recognition for Raspberry Pi.
     * `npm install cmake-js -g`
 
 ### Say.js
-
 * Install Festival with a default voice:
     * `apt-get install festival festvox-rablpc16k`
 
 ### NPM Dependencies
-
 * `npm install`
 
 ## Launching
@@ -33,3 +30,13 @@ Speech assistant with offline voice recognition for Raspberry Pi.
     * Or alternatively using watch mode:
     * `npm run watch`
     * `npm run launch` (in a separate terminal)
+
+## Architecture
+* The application roughly implements the following structure:
+
+* Speech input 
+    * -> `AudioInput`
+    * -> `SpeechRecognitionEngine`
+    * -> `UtteranceProcessor`
+    * -> `Skill`
+    * -> `OutputFacade`
