@@ -1,5 +1,5 @@
 import { Intent } from "./Intent";
-import { OutputFacade } from "../output/OutputFacade";
+import { OutputFacade } from "../output/facade/OutputFacade";
 
 /**
  * A skill is a module that provides a

@@ -1,6 +1,6 @@
 import { Skill } from "../Skill";
 import { Intent } from "../Intent";
-import { OutputFacade } from "../../output/OutputFacade";
+import { OutputFacade } from "../../output/facade/OutputFacade";
 
 /**
  * A simple skill telling the current time.

@@ -1,7 +1,7 @@
 import { Skill } from "../interaction/Skill";
-import { TextOutput } from "../output/TextOutput";
+import { TextOutput } from "../output/text/TextOutput";
 import { Intent } from "../interaction/Intent";
-import { OutputFacade } from "../output/OutputFacade";
+import { OutputFacade } from "../output/facade/OutputFacade";
 import { escapeRegex } from "../utils/StringUtils";
 import { DictIntent } from "../interaction/DictIntent";
 
