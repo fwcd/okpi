@@ -20,10 +20,17 @@ export class CalculatorSkill implements Skill {
 	public invoke(intent: Intent, out: OutputFacade): void {
 		const a = parseInt(intent.getSlot("a"));
 		const b = parseInt(intent.getSlot("b"));
+		const opName = intent.getUtteranceName();
 		
-		// TODO: Error handling
-		
-		out.output(this.binaryOperations[]);
+		if (a === NaN) {
+			out.output("First operand was not a number");
+		} else if (b === NaN) {
+			out.output("Second operand was not a number");
+		} else if (opName in this.binaryOperations) {
+			out.output(a + " " + opName + " b equals " + this.binaryOperations[opName](a, b));
+		} else {
+			out.output("Calculator operation " + opName + " was not recognized");
+		}
 	}
 	
 	public getUtterances(): string[] { return this.utterances; }
