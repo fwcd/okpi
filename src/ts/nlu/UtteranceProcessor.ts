@@ -12,6 +12,7 @@ interface UtteranceMatch {
 }
 
 interface UtterancePattern {
+	name: string;
 	regex: RegExp;
 	parameters: string[];
 }
@@ -78,6 +79,8 @@ export class UtteranceProcessor implements TextOutput {
 	 * 
 	 * `set a timer for {minutes} minutes`
 	 * 
+	 * A more detailed description is provided in `Skill.ts`.
+	 * 
 	 * @param text - The utterance to match against
 	 * @param pattern - The template string to search for
 	 * @returns The intent or null if the text does not match
@@ -93,7 +96,10 @@ export class UtteranceProcessor implements TextOutput {
 		} else {
 			const dict: { [keys: string]: string; } = {};
 			groups.forEach((str, i) => dict[uttPattern.parameters[i]] = str);
-			return new DictIntent(dict);
+			return new DictIntent({
+				dict: dict,
+				utteranceName: uttPattern.name
+			});
 		}
 	}
 	
@@ -105,6 +111,7 @@ export class UtteranceProcessor implements TextOutput {
 		let regex = "";
 		let literal = "";
 		let i = 0;
+		let name = "";
 		const parameters: string[] = [];
 		
 		while (i < pattern.length) {
@@ -116,19 +123,28 @@ export class UtteranceProcessor implements TextOutput {
 				
 				// Add parameter
 				let parameter = "";
-				
 				i++; // Skip '{'
 				while (c !== "}") {
 					parameter += c;
 					i++;
-					
 					if (i >= pattern.length) {
-						throw new Error("Could not find closing parenthesis in '" + pattern + "'");
+						throw new Error("Could not find closing '}' in '" + pattern + "'");
 					}
-					
 					c = pattern.charAt(i);
 				}
 				parameters.push(parameter);
+			} else if (c === "<") {
+				// Parse a name inside angle brackets
+				i++; // Skip '<'
+				while (c !== ">") {
+					name += c;
+					i++;
+					if (i >= pattern.length) {
+						throw new Error("Could not find closing '>' in '" + pattern + "'");
+					}
+					c = pattern.charAt(i);
+				}
+				regex += name;
 			} else if (c === " ") {
 				// Insensitivity to multiple spaces
 				literal += "\\s+";
@@ -144,7 +160,8 @@ export class UtteranceProcessor implements TextOutput {
 		
 		return {
 			regex: new RegExp(regex),
-			parameters: parameters
+			parameters: parameters,
+			name: name
 		};
 	}
 	

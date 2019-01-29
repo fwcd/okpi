@@ -18,7 +18,15 @@ export interface Skill {
 	 * curly braces. Additionally, the usual
 	 * regex syntax can be used (which implies
 	 * that any regex characters have to be
-	 * escaped too).
+	 * escaped too). Optionally, angle brackets
+	 * may be used to identify the single utterances
+	 * when processing the intent:
+	 * 
+	 * `{a} <plus> {b}`
+	 * 
+	 * The text inside the angle brackets is matched
+	 * as if it was a literal, but the text is captured
+	 * in the intent.
 	 */
 	getUtterances(): string[];
 }
