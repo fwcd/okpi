@@ -29,6 +29,11 @@ export class UtteranceProcessor implements TextOutput {
 		this.out = out;
 	}
 	
+	/**
+	 * Processes some text.
+	 * 
+	 * @param text The utterance
+	 */
 	public accept(text: string): void {
 		const matches = this.skills
 			.map(it => this.match(text, it))
@@ -42,10 +47,29 @@ export class UtteranceProcessor implements TextOutput {
 		}
 	}
 	
+	/**
+	 * Tries to match the given utterance against
+	 * a skill by considering possible utterance
+	 * templates.
+	 * 
+	 * @param text - The utterance to match against
+	 * @param skill - The skill to test
+	 */
 	private match(text: string, skill: Skill): UtteranceMatch | null {
+		const intents = skill.getUtterances()
+			.map(utt => this.matchIntent(text, utt))
+			.filter(it => it != null);
 		
+		if (intents.length >= 1) {
+			return {
+				intent: intents.pop(),
+				skill: skill,
+				text: text
+			};
+		} else {
+			return null;
+		}
 	}
-	
 	
 	/**
 	 * Tries to match an utterance pattern against a string.
@@ -54,7 +78,7 @@ export class UtteranceProcessor implements TextOutput {
 	 * 
 	 * `set a timer for {minutes} minutes`
 	 * 
-	 * @param text - The text to match against
+	 * @param text - The utterance to match against
 	 * @param pattern - The template string to search for
 	 * @returns The intent or null if the text does not match
 	 */
