@@ -8,14 +8,16 @@ import { UtteranceProcessor } from "../nlu/UtteranceProcessor";
  */
 export class OkPiAssistant implements SpeechAssistant {
 	private engine: SpeechRecognitionEngine;
-	private uttProcessor = new UtteranceProcessor();
+	private uttProcessor: UtteranceProcessor;
 	
 	public constructor(params: {
 		engine: SpeechRecognitionEngine,
 		keyphrase: string
 	}) {
+		this.uttProcessor = new UtteranceProcessor();
 		this.engine = params.engine;
 		this.engine.setKeyphrase(params.keyphrase);
+		this.engine.setOutput(this.uttProcessor);
 	}
 	
 	public launch(): void {
