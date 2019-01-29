@@ -33,7 +33,6 @@ function main(): void {
 				debug: false,
 				lock: inputLock
 			}),
-			uttTimeoutMs: 10000, // ms
 			uttResponseTime: 1000 // ms
 		}),
 		keyphrase: "ok computer",

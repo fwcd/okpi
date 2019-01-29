@@ -15,7 +15,6 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	private keyphrase: string;
 	private input: AudioInput;
 	private output?: TextOutput;
-	private uttTimeoutMs: number;
 	private defaultSearchKey: string;
 	private listening = false;
 	private mode = ListenMode.KEYPHRASE;
@@ -24,12 +23,10 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 	public constructor(params: {
 		decoder: PsDecoder;
 		input: AudioInput;
-		uttTimeoutMs: number;
 		uttResponseTime: number;
 	}) {
 		this.decoder = params.decoder;
 		this.input = params.input;
-		this.uttTimeoutMs = params.uttTimeoutMs;
 		this.defaultSearchKey = this.decoder.getSearch();
 		this.uttHandleTask = new DelayedTask(input => {
 			if (this.output && this.mode == ListenMode.UTTERANCE) {
