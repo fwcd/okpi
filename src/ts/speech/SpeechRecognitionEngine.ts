@@ -1,7 +1,7 @@
 import { TextOutput } from "../output/text/TextOutput";
 
 export interface SpeechRecognitionEngine {
-	setOutput(output: TextOutput): void;
+	setUtteranceOutput(output: TextOutput): void;
 	
 	setKeyphrase(keyphrase: string): void;
 	

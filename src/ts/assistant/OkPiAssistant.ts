@@ -19,7 +19,7 @@ export class OkPiAssistant implements SpeechAssistant {
 		this.uttProcessor = new UtteranceProcessor(params.output);
 		this.engine = params.engine;
 		this.engine.setKeyphrase(params.keyphrase);
-		this.engine.setOutput(this.uttProcessor);
+		this.engine.setUtteranceOutput(this.uttProcessor);
 	}
 	
 	public launch(): void {

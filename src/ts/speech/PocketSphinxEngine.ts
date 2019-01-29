@@ -102,7 +102,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.decoder.setKeyphrase(KEYPHRASE_SEARCH_KEY, keyphrase);
 	}
 	
-	public setOutput(output: TextOutput): void {
+	public setUtteranceOutput(output: TextOutput): void {
 		this.output = output;
 	}
 	
