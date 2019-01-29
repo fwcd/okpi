@@ -8,9 +8,12 @@ import { MicrophoneInput } from "./input/MicrophoneInput";
 import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
 import { SpeakerOutput } from "./output/facade/SpeakerOutput";
 import { InputLock } from "./input/InputLock";
+import { LOG, LogLevel } from "./utils/Logger";
+
+// Source: https://github.com/cmusphinx/node-pocketsphinx#example
 
 function main(): void {
-	// Source: https://github.com/cmusphinx/node-pocketsphinx#example
+	LOG.level = LogLevel.DEBUG;
 	
 	// Assuming that the PocketSphinx repository is a sibling directory of "OkPi"
 	const psRepo = path.resolve(__dirname, "..", "..", "..", "pocketsphinx");

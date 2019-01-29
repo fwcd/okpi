@@ -1,6 +1,7 @@
 import * as say from "say";
 import { OutputFacade } from "./OutputFacade";
 import { InputLock } from "../../input/InputLock";
+import { LOG } from "../../utils/Logger";
 
 /**
  * The "default" implementation of OutputFacade
@@ -16,7 +17,7 @@ export class SpeakerOutput implements OutputFacade {
 	public output(text: string): void {
 		this.inputLock.setLocked(true);
 		say.speak(text, null, null, err => {
-			if (err) console.log(err); // TODO: Logging
+			LOG.error("An error occurred while speaking: {}", err);
 			
 			// Unlock the input after speaking
 			this.inputLock.setLocked(false);

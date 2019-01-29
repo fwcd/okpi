@@ -3,6 +3,7 @@ import { AudioInput } from "../input/AudioInput";
 import { TextOutput } from "../output/text/TextOutput";
 import { DelayedTask } from "../utils/DelayedTask";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
+import { LOG } from "../utils/Logger";
 
 const KEYPHRASE_SEARCH_KEY = "keyphraseSearch";
 
@@ -32,7 +33,7 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 		this.uttHandleTask = new DelayedTask(input => {
 			if (this.output && this.mode == ListenMode.UTTERANCE) {
 				// Handle the utterance and listen for the next keyphrase
-				console.log("Processing utterance '" + input + "'..."); // TODO: Better logging
+				LOG.info("Processing utterance '{}'...", input);
 				this.output.accept(input);
 				this.listenForNextKeyphrase();
 			}
@@ -55,13 +56,13 @@ export class PocketSphinxEngine implements SpeechRecognitionEngine {
 					switch (this.mode) {
 						case ListenMode.KEYPHRASE: {
 							// Heard the keyphrase
-							console.log("Heard keyphrase '" + hypstr + "', listening for utterance..."); // TODO: Better logging
+							LOG.info("Heard keyphrase '{}', listening for utterance...", hypstr);
 							this.listenForNextUtterance();
 							break;
 						};
 						case ListenMode.UTTERANCE: {
 							// Heard an utterance while in utterance mode
-							console.log("Heard utterance '" + hypstr + "'..."); // TODO: Better logging
+							LOG.info("Heard utterance '{}'...", hypstr);
 							
 							// Wait for the user to complete his utterance
 							// by resetting the task timeout each time he speaks

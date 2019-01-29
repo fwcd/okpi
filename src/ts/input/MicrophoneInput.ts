@@ -3,6 +3,7 @@ import { ListenerList, Listener } from "../utils/ListenerList";
 import { Transform } from "stream";
 import mic = require("mic");
 import { InputLock } from "./InputLock";
+import { LOG } from "../utils/Logger";
 
 interface MicrophoneInputParams extends Mic.MicrophoneOptions {
 	lock?: InputLock;
@@ -20,7 +21,7 @@ export class MicrophoneInput implements AudioInput {
 		this.lock = params.lock;
 		this.microphone = mic(params);
 		this.microphone.getAudioStream().on("audioProcessExitComplete", () => {
-			console.log("Exiting microphone stream"); // TODO: Logging
+			LOG.info("Exiting microphone stream");
 		});
 		this.microphone.getAudioStream().on("data", data => {
 			if (!this.lock || !this.lock.isLocked()) {
