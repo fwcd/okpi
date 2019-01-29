@@ -4,7 +4,7 @@ import { ps } from "pocketsphinx";
 import { OkPiAssistant } from "./assistant/OkPiAssistant";
 import { SpeechAssistant } from "./assistant/SpeechAssistant";
 import { ClockSkill } from "./interaction/skills/ClockSkill";
-import { MicrophoneInput } from "./speech/input/MicrophoneInput";
+import { MicrophoneInput } from "./input/MicrophoneInput";
 import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
 
 function main(): void {

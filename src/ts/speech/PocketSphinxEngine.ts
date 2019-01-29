@@ -1,6 +1,6 @@
 import { PsDecoder } from "pocketsphinx";
-import { AudioInput } from "./input/AudioInput";
-import { TextOutput } from "./output/TextOutput";
+import { AudioInput } from "../input/AudioInput";
+import { TextOutput } from "../output/TextOutput";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 
 const KEYPHRASE_SEARCH_KEY = "keyphraseSearch";

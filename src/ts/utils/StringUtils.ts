@@ -14,3 +14,8 @@ export function strContainsAny(base: string, patterns: string[], ignoreCase: boo
 	}
 	return false;
 }
+
+export function escapeRegex(literal: string): string {
+	// Source: https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+	return literal.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}

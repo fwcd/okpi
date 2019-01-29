@@ -1,4 +1,4 @@
-import { TextOutput } from "./output/TextOutput";
+import { TextOutput } from "../output/TextOutput";
 
 export interface SpeechRecognitionEngine {
 	setOutput(output: TextOutput): void;
