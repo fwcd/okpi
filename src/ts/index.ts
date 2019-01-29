@@ -6,6 +6,7 @@ import { SpeechAssistant } from "./assistant/SpeechAssistant";
 import { ClockSkill } from "./interaction/skills/ClockSkill";
 import { MicrophoneInput } from "./input/MicrophoneInput";
 import { PocketSphinxEngine } from "./speech/PocketSphinxEngine";
+import { SpeakerOutput } from "./output/facade/SpeakerOutput";
 
 function main(): void {
 	// Source: https://github.com/cmusphinx/node-pocketsphinx#example
@@ -31,7 +32,8 @@ function main(): void {
 			}),
 			uttTimeoutMs: 10000 // ms
 		}),
-		keyphrase: "ok computer"
+		keyphrase: "ok computer",
+		output: new SpeakerOutput()
 	});
 	
 	assistant.registerSkills(
