@@ -32,7 +32,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private dsModel: ds.Model;
 	private input: AudioInput;
 	private sampleRate: number;
-	private responseTask: DelayedTask<string>;
+	private responseTask: DelayedTask<void>;
 	private streamPtr?: any;
 	
 	public constructor(params: {
@@ -48,7 +48,8 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 		this.dsModel = new ds.Model(params.model, N_FEATURES, N_CONTEXT, params.alphabet, BEAM_WIDTH);
 		this.input = params.input;
 		this.sampleRate = params.sampleRate;
-		this.responseTask = new DelayedTask(input => {
+		this.responseTask = new DelayedTask(() => {
+			LOG.trace("Fetching stt inside response task");
 			const stt = this.nextStt();
 			LOG.info("Heard '{}'", stt);
 			// TODO: Keyphrase detection and output feeding
@@ -64,14 +65,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 				LOG.trace("Receiving audio data, feeding into inference...");
 				this.dsModel.feedAudioContent(this.streamPtr, data);
 				LOG.trace("Done feeding into inference, restarting response task...");
-				this.responseTask.restart(() => {
-					if (this.streamPtr) {
-						LOG.trace("Fetching intermediate decode inside response task");
-						return this.dsModel.intermediateDecode(this.streamPtr);
-					} else {
-						throw new Error("Missing inference stream pointer while trying to respond to user.");
-					}
-				});
+				this.responseTask.restart(null);
 			} else {
 				LOG.warn("Receiving audio data while no inference stream pointer is present");
 			}
