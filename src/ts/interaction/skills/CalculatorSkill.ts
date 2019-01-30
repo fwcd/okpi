@@ -1,6 +1,7 @@
 import { Skill } from "../Skill";
 import { Intent } from "../Intent";
 import { OutputFacade } from "../../output/facade/OutputFacade";
+import { NLNumberParser } from "../../nlu/NLNumberParser";
 
 /**
  * A calculator skill performing basic arithmetic.
@@ -14,12 +15,13 @@ export class CalculatorSkill implements Skill {
 		"modulo": (a, b) => a % b,
 		"to the power of": (a, b) => Math.pow(a, b)
 	};
+	private numberParser = new NLNumberParser();
 	private utterances: string[] = Object.keys(this.binaryOperations)
 		.map(key => "{a} <" + key + "> {b}");
 	
 	public invoke(intent: Intent, out: OutputFacade): void {
-		const a = parseInt(intent.getSlot("a"));
-		const b = parseInt(intent.getSlot("b"));
+		const a = this.numberParser.parse(intent.getSlot("a"));
+		const b = this.numberParser.parse(intent.getSlot("b"));
 		const opName = intent.getUtteranceName();
 		
 		if (a === NaN) {
