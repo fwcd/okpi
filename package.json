@@ -14,9 +14,11 @@
 	"license": "MIT",
 	"dependencies": {
 		"pocketsphinx": "^5.0.7",
+		"argparse": "^1.0.10",
 		"say": "^0.15.0"
 	},
 	"devDependencies": {
+		"@types/argparse": "^1.0.35",
 		"@types/node": "^10.12.18",
 		"mic": "^2.1.2",
 		"typescript": "^3.2.4"
