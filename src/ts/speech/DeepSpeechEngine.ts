@@ -44,6 +44,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 		responseDelay: number;
 		sampleRate: number;
 	}) {
+		LOG.info("Creating DeepSpeechEngine model...");
 		this.dsModel = new ds.Model(params.model, N_FEATURES, N_CONTEXT, params.alphabet, BEAM_WIDTH);
 		this.input = params.input;
 		this.sampleRate = params.sampleRate;
@@ -57,6 +58,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	}
 	
 	private setupListeners(): void {
+		LOG.info("Registering input listeners...");
 		this.input.addDataListener(data => {
 			if (this.streamPtr) {
 				LOG.trace("Receiving audio data, restarting response task...");
