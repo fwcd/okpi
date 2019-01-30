@@ -6,7 +6,11 @@ Virtual assistant with offline voice recognition. Despite being primarily design
 ### DeepSpeech
 * `apt install libportaudio0 libportaudio2 libportaudiocpp0 libatlas-base-dev sox portaudio19-dev`
 * `pip3 install deepspeech pyaudio sox`
-* Obtain a recent version of the DeepSpeech model from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
+* Obtain a recent version of the DeepSpeech language model from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
+    * For example, to download and extract version `0.4.1`:
+        * `mkdir local && cd local`
+        * `wget https://github.com/mozilla/DeepSpeech/releases/download/v0.4.1/deepspeech-0.4.1-models.tar.gz`
+        * `tar -zxvf deepspeech-0.4.1-models.tar.gz`
     * See [this README](https://github.com/mozilla/DeepSpeech#getting-the-pre-trained-model) for further instructions
 * Add the following file tree to the repository:
     * `local`
