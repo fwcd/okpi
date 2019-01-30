@@ -70,7 +70,7 @@ declare module "deepspeech" {
 		 * @param buffer An array of 16-bit, mono raw audio samples at the
 		 *                appropriate sample rate.
 		 */
-		feedAudioContext(buffer: Buffer): void;
+		feedAudioContent(buffer: Buffer): void;
 		
 		/**
 		 * Compute the intermediate decoding of an ongoing streaming inference.

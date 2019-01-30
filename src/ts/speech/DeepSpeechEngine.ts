@@ -57,7 +57,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	
 	private setupListeners(): void {
 		this.input.addDataListener(data => {
-			this.dsModel.feedAudioContext(data);
+			this.dsModel.feedAudioContent(data);
 			this.responseTask.restart(() => this.dsModel.intermediateDecode());
 		});
 	}
