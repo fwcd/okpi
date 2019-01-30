@@ -60,7 +60,7 @@ declare module "deepspeech" {
 		 *                        0 we reserve enough frames for 3 seconds of audio (150).
 		 * @param sampleRate The sample-rate of the audio signal.
 		 *
-		 * @returns Zero for success, non-zero on failure.
+		 * @returns an opaque pointer that represents the streaming state. Can be NULL if an error occurs.
 		 */
 		setupStream(preAllocFrames: number, sampleRate: number): any;
 		
@@ -78,18 +78,20 @@ declare module "deepspeech" {
 		 *        currently capable of streaming, so it always starts from the beginning
 		 *        of the audio.
 		 *
+		 * @param sctx A streaming state pointer returned by {@link setupStream()}.
 		 * @returns The STT intermediate result. The user is responsible for freeing the
 		 *         string.
 		 */
-		intermediateDecode(): string;
+		intermediateDecode(sctx: any): string;
 		
 		/**
 		 * Signal the end of an audio signal to an ongoing streaming
 		 *        inference, returns the STT result over the whole audio signal.
 		 *
+		 * @param sctx A streaming state pointer returned by {@link setupStream()}.
 		 * @returns The STT result. The user is responsible for freeing the string.
 		 */
-		finishStream(): string;
+		finishStream(sctx: any): string;
 	}
 	
 	/**
