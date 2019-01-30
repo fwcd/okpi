@@ -59,7 +59,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private setupListeners(): void {
 		this.input.addDataListener(data => {
 			if (this.streamPtr) {
-				LOG.trace("Receiving audio data");
+				LOG.trace("Receiving audio data, restarting response task...");
 				this.dsModel.feedAudioContent(this.streamPtr, data);
 				this.responseTask.restart(() => {
 					if (this.streamPtr) {
@@ -81,6 +81,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	 */
 	private nextStt(): string {
 		const stt = this.endStreamingInference();
+		LOG.debug("Fetched speech-to-text result");
 		this.startStreamingInference();
 		return stt;
 	}
@@ -99,6 +100,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	}
 	
 	private startStreamingInference(): void {
+		LOG.debug("(Re)starting streaming inference");
 		// Begins streaming inference and stores
 		// an opaque (native) pointer to the stream
 		this.streamPtr = this.dsModel.setupStream(0, this.sampleRate);
@@ -106,6 +108,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	
 	private endStreamingInference(): string | null {
 		if (this.streamPtr) {
+			LOG.debug("Ending streaming inference");
 			return this.dsModel.finishStream(this.streamPtr);
 		} else {
 			return null;
@@ -113,6 +116,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	}
 	
 	public start(): void {
+		LOG.info("Starting DeepSpeechEngine (input and streaming inference)...");
 		this.startStreamingInference();
 		this.input.start();
 	}
