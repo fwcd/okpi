@@ -58,14 +58,19 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	
 	private setupListeners(): void {
 		this.input.addDataListener(data => {
-			this.dsModel.feedAudioContent(data);
-			this.responseTask.restart(() => {
-				if (this.streamPtr) {
-					return this.dsModel.intermediateDecode(this.streamPtr);
-				} else {
-					throw new Error("Missing inference stream pointer while trying to respond to user.");
-				}
-			});
+			if (this.streamPtr) {
+				LOG.trace("Receiving audio data");
+				this.dsModel.feedAudioContent(this.streamPtr, data);
+				this.responseTask.restart(() => {
+					if (this.streamPtr) {
+						return this.dsModel.intermediateDecode(this.streamPtr);
+					} else {
+						throw new Error("Missing inference stream pointer while trying to respond to user.");
+					}
+				});
+			} else {
+				LOG.warn("Receiving audio data while no inference stream pointer is present");
+			}
 		});
 	}
 	
