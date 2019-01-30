@@ -33,6 +33,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private input: AudioInput;
 	private sampleRate: number;
 	private responseTask: DelayedTask<string>;
+	private streamPtr?: any;
 	
 	public constructor(params: {
 		model: string;
@@ -58,7 +59,13 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private setupListeners(): void {
 		this.input.addDataListener(data => {
 			this.dsModel.feedAudioContent(data);
-			this.responseTask.restart(() => this.dsModel.intermediateDecode());
+			this.responseTask.restart(() => {
+				if (this.streamPtr) {
+					return this.dsModel.intermediateDecode(this.streamPtr);
+				} else {
+					throw new Error("Missing inference stream pointer while trying to respond to user.");
+				}
+			});
 		});
 	}
 	
@@ -87,11 +94,17 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	}
 	
 	private startStreamingInference(): void {
-		this.dsModel.setupStream(0, this.sampleRate);
+		// Begins streaming inference and stores
+		// an opaque (native) pointer to the stream
+		this.streamPtr = this.dsModel.setupStream(0, this.sampleRate);
 	}
 	
-	private endStreamingInference(): string {
-		return this.dsModel.finishStream();
+	private endStreamingInference(): string | null {
+		if (this.streamPtr) {
+			return this.dsModel.finishStream(this.streamPtr);
+		} else {
+			return null;
+		}
 	}
 	
 	public start(): void {
