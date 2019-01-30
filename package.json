@@ -13,6 +13,7 @@
 	"author": "fwcd",
 	"license": "MIT",
 	"dependencies": {
+		"argparse": "^1.0.10",
 		"deepspeech": "^0.4.1",
 		"say": "^0.15.0"
 	},
