@@ -35,13 +35,13 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private responseTask: DelayedTask<string>;
 	
 	public constructor(params: {
-		model: string,
-		alphabet: string,
-		lm: string,
-		trie: string,
-		input: AudioInput,
-		responseDelay: number,
-		sampleRate: number
+		model: string;
+		alphabet: string;
+		lm: string;
+		trie: string;
+		input: AudioInput;
+		responseDelay: number;
+		sampleRate: number;
 	}) {
 		this.dsModel = new ds.Model(params.model, N_FEATURES, N_CONTEXT, params.alphabet, BEAM_WIDTH);
 		this.input = params.input;

@@ -1,10 +1,10 @@
 declare namespace Mic {
 	interface MicrophoneOptions {
 		endian?: string;
-		bitwidth?: number;
+		bitwidth?: string;
 		encoding?: string;
-		rate?: number;
-		channels?: number;
+		rate?: string;
+		channels?: string;
 		device?: string;
 		exitOnSilence?: number;
 		fileType?: string;
