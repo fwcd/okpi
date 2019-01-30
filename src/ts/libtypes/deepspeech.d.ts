@@ -1,22 +1,23 @@
 // Incomplete type definitions for
 // https://github.com/mozilla/DeepSpeech
 // Sources: https://github.com/mozilla/DeepSpeech/blob/master/native_client/javascript/index.js
+//          https://github.com/mozilla/DeepSpeech/blob/master/native_client/deepspeech.h
 
 declare module "deepspeech" {
 	export class Model {
 		constructor();
 		
-		enableDecoderWithLM(): any;
+		enableDecoderWithLM(alphabetConfigPath: string, lmPath: string, triePath: string, lmAlpha: number, lmBeta: number): number;
 		
-		stt(): any;
+		stt(buffer: Buffer, sampleRate: number): string;
 		
-		setupStream(): any;
+		setupStream(preAllocFrames: number, sampleRate: number): any;
 		
-		feedAudioContext(): void;
+		feedAudioContext(buffer: Buffer): void;
 		
-		intermediateDecode(): any;
+		intermediateDecode(): string;
 		
-		finishStream(): any;
+		finishStream(): string;
 	}
 	
 	export function audioToInputVector(): any;
