@@ -8,6 +8,16 @@ export enum LogLevel {
 	NONE = 100000
 }
 
+export const STRING_LOG_LEVELS: { [key: string]: LogLevel; } = {
+	"DEEP_TRACE": LogLevel.DEEP_TRACE,
+	"TRACE": LogLevel.TRACE,
+	"DEBUG": LogLevel.DEBUG,
+	"INFO": LogLevel.INFO,
+	"WARN": LogLevel.WARN,
+	"ERROR": LogLevel.ERROR,
+	"NONE": LogLevel.NONE
+}
+
 /**
  * Basic logging abstraction supporting
  * different log levels.
