@@ -16,6 +16,9 @@
 		"deepspeech": "^0.4.1",
 		"say": "^0.15.0"
 	},
+	"optionalDependencies": {
+		"pocketsphinx": "^5.0.7"
+	},
 	"devDependencies": {
 		"@types/node": "^10.12.18",
 		"mic": "^2.1.2",
