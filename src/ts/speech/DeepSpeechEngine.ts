@@ -12,6 +12,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	
 	public getKeyphrase(): string {
 		// TODO
+		return "";
 	}
 	
 	public start(): void {
