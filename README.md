@@ -3,19 +3,19 @@ Virtual assistant with offline voice recognition. Despite being primarily design
 
 ## Installation
 
-### Pocket Sphinx
-* The PocketSphinx installation currently requires Node.js 6
-    * This can be achieved by using a version manager such as [nvm](https://github.com/creationix/nvm):
-        * `nvm install 6`
-* Install the [PocketSphinx](https://github.com/cmusphinx/node-pocketsphinx) [dependencies](https://github.com/cmusphinx/node-pocketsphinx#installation):
-    * `apt-get install cmake pkg-config libpcre3-dev bison`
-    * [`swig` from GitHub](https://github.com/swig/swig)
-    * [`sphinxbase` from GitHub](https://github.com/cmusphinx/sphinxbase)
-    * [`pocketsphinx` from GitHub](https://github.com/cmusphinx/pocketsphinx)
-    * Note that certain tweaks might be required prior to install:
-        * `export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig`
-        * `ln -s /usr/bin/swig3.0 /usr/bin/swig` (Create a symlink for `swig3.0`)
-    * `npm install cmake-js -g`
+### DeepSpeech
+* `apt install libportaudio0 libportaudio2 libportaudiocpp0 libatlas-base-dev sox portaudio19-dev`
+* `pip3 install deepspeech pyaudio sox`
+* Obtain a recent version of the DeepSpeech model from [GitHub releases](https://github.com/mozilla/DeepSpeech/releases)
+    * See [this README](https://github.com/mozilla/DeepSpeech#getting-the-pre-trained-model) for further instructions
+* Add the following file tree to the repository:
+    * `local`
+        * `input.wav` (16 kHz input audio)
+        * `models` (the DeepSpeech model)
+            * `alphabet.txt`
+            * `lm.binary`
+            * `output_graph.pbmm`
+            * `trie`
 
 ### Say.js
 * Install Festival with a default voice:
