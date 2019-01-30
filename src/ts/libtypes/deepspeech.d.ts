@@ -67,10 +67,11 @@ declare module "deepspeech" {
 		/**
 		 * Feed audio samples to an ongoing streaming inference.
 		 *
+		 * @param aSctx A streaming state pointer returned by {@link setupStream()}.
 		 * @param buffer An array of 16-bit, mono raw audio samples at the
 		 *                appropriate sample rate.
 		 */
-		feedAudioContent(buffer: Buffer): void;
+		feedAudioContent(sctx: any, buffer: Buffer): void;
 		
 		/**
 		 * Compute the intermediate decoding of an ongoing streaming inference.
