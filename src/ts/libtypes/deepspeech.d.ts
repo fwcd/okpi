@@ -5,7 +5,7 @@
 
 declare module "deepspeech" {
 	export class Model {
-		constructor();
+		constructor(modelPath: string, numberOfCepstrum: number, nContext: number, alphabetConfigPath: string, beamWidth: number);
 		
 		enableDecoderWithLM(alphabetConfigPath: string, lmPath: string, triePath: string, lmAlpha: number, lmBeta: number): number;
 		
