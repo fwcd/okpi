@@ -24,7 +24,7 @@ function main(): void {
 	
 	const rawLogLevel = args["log"];
 	if (rawLogLevel in STRING_LOG_LEVELS) {
-		LOG.level = rawLogLevel;
+		LOG.level = STRING_LOG_LEVELS[rawLogLevel];
 	} else {
 		LOG.level = LogLevel.INFO;
 		LOG.warn("Did not recognize log level '{}', defaulting to INFO", rawLogLevel);
