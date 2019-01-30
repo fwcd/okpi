@@ -1,7 +1,7 @@
 {
 	"name": "okpi",
 	"version": "1.0.0",
-	"description": "Offline speech assistant for Raspberry Pi",
+	"description": "Virtual assistant for Raspberry Pi",
 	"main": "out/js/index.js",
 	"scripts": {
 		"watch": "tsc -w",
