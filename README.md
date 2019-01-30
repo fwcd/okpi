@@ -43,11 +43,11 @@ Virtual assistant with offline voice recognition. Despite being primarily design
     * `npm install cmake-js -g`
 
 ## Launching
-* Make sure that this repository (`OkPi`) is in the same folder as the cloned [`pocketsphinx` repository](https://github.com/cmusphinx/pocketsphinx)
-* `npm run start`
+* Make sure that the model is located in `local/models`
+* `npm run start -- --model=local/models/output_graph.pbmm --alphabet=local/models/alphabet.txt --lm=local/models/lm.binary --trie=local/models/trie`
     * Or alternatively using watch mode:
     * `npm run watch`
-    * `npm run launch` (in a separate terminal)
+    * `npm run launch -- --model=local/models/output_graph.pbmm --alphabet=local/models/alphabet.txt --lm=local/models/lm.binary --trie=local/models/trie` (in a separate terminal)
 
 ## Architecture
 * The application roughly implements the following structure:
