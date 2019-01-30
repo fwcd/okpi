@@ -30,6 +30,7 @@ function main(): void {
 		LOG.warn("Did not recognize log level '{}', defaulting to INFO", rawLogLevel);
 	}
 	
+	LOG.info("Creating engine...");
 	const sampleRate = 16000;
 	const inputLock = new InputLock();
 	const assistant: SpeechAssistant = new OkPiAssistant({
@@ -50,6 +51,7 @@ function main(): void {
 		output: new SpeakerOutput(inputLock)
 	});
 	
+	LOG.info("Registering skills...");
 	assistant.registerSkills(
 		// Register default skills
 		new ClockSkill()
