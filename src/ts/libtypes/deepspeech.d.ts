@@ -107,14 +107,14 @@ declare module "deepspeech" {
 	 * @param sampleRate The sample-rate of the audio signal.
 	 * @param nCep The number of cepstrum.
 	 * @param nContext The size of the context window.
-	 * @param[out] aMfcc An array containing features, of shape
+	 * @param mfcc An array containing features, of shape
 	 *                   (@p aNFrames, ncep * ncontext). The user is responsible
 	 *                   for freeing the array.
 	 * @param[out] aNFrames (optional) The number of frames in @p aMfcc.
 	 * @param[out] aFrameLen (optional) The length of each frame
 	 *                       (ncep * ncontext) in @p aMfcc.
 	 */
-	export function audioToInputVector(buffer: Buffer, sampleRate: number, nCep: number, nContext: number): any;
+	export function audioToInputVector(buffer: Buffer, sampleRate: number, nCep: number, nContext: number, mfcc: number[], ...other: any[]): any;
 	
 	/**
 	 * Print version of this library and of the linked TensorFlow library.
