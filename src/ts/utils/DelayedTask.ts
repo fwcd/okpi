@@ -14,10 +14,16 @@ export class DelayedTask<T> {
 		this.minimumMs = minimumMs;
 	}
 	
-	public restart(input: T): void {
+	public restart(input: T | (() => T)): void {
 		if (this.timeoutHandle) {
 			clearTimeout(this.timeoutHandle);
 		}
-		this.timeoutHandle = setTimeout(() => this.task(input), this.minimumMs);
+		this.timeoutHandle = setTimeout(() => {
+			if (typeof input === "function") {
+				this.task((input as () => T)());
+			} else {
+				this.task(input);
+			}
+		}, this.minimumMs);
 	}
 }

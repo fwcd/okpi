@@ -1,6 +1,9 @@
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 import { TextOutput } from "../output/text/TextOutput";
 import * as ds from "deepspeech";
+import { AudioInput } from "../input/AudioInput";
+import { DelayedTask } from "../utils/DelayedTask";
+import { LOG } from "../utils/Logger";
 
 // Source: https://github.com/mozilla/DeepSpeech/blob/master/native_client/javascript/client.js
 
@@ -27,14 +30,47 @@ const N_CONTEXT = 9;
 
 export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private dsModel: ds.Model;
+	private input: AudioInput;
+	private sampleRate: number;
+	private responseTask: DelayedTask<string>;
 	
 	public constructor(params: {
 		model: string,
 		alphabet: string,
-		lm: string, 
-		trie: string
+		lm: string,
+		trie: string,
+		input: AudioInput,
+		responseDelay: number,
+		sampleRate: number
 	}) {
 		this.dsModel = new ds.Model(params.model, N_FEATURES, N_CONTEXT, params.alphabet, BEAM_WIDTH);
+		this.input = params.input;
+		this.sampleRate = params.sampleRate;
+		this.responseTask = new DelayedTask(input => {
+			const stt = this.nextStt();
+			LOG.info("Heard '{}'", stt);
+			// TODO: Keyphrase detection and output feeding
+		}, params.responseDelay);
+		
+		this.setupListeners();
+	}
+	
+	private setupListeners(): void {
+		this.input.addDataListener(data => {
+			this.dsModel.feedAudioContext(data);
+			this.responseTask.restart(() => this.dsModel.intermediateDecode());
+		});
+	}
+	
+	/**
+	 * Ends the current streaming inference, fetches
+	 * the speech-to-text result (which is returned)
+	 * and starts a new stream.
+	 */
+	private nextStt(): string {
+		const stt = this.endStreamingInference();
+		this.startStreamingInference();
+		return stt;
 	}
 	
 	public setUtteranceOutput(output: TextOutput): void {
@@ -50,8 +86,17 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 		return "";
 	}
 	
+	private startStreamingInference(): void {
+		this.dsModel.setupStream(0, this.sampleRate);
+	}
+	
+	private endStreamingInference(): string {
+		return this.dsModel.finishStream();
+	}
+	
 	public start(): void {
-		// TODO
+		this.startStreamingInference();
+		this.input.start();
 	}
 	
 	public stop(): void {
