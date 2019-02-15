@@ -1,15 +1,14 @@
 import * as path from "path";
+import * as child_process from "child_process";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 import { TextOutput } from "../output/text/TextOutput";
 import { AudioInput } from "../input/AudioInput";
 import { LOG } from "../utils/Logger";
-import { DsWorkerMessage, DsStartRequest, DsStopRequest, DsFeedRequest } from "./DeepSpeechWorkerProtocol";
-import { Worker } from "worker_threads";
+import { DsWorkerMessage, DsStartRequest, DsStopRequest, DsFeedRequest, DsInitializeRequest } from "./DeepSpeechWorkerProtocol";
 
 export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private input: AudioInput;
-	private sampleRate: number;
-	private worker: Worker;
+	private worker: child_process.ChildProcess;
 	
 	public constructor(params: {
 		model: string;
@@ -22,9 +21,16 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	}) {
 		LOG.info("Creating DeepSpeechEngine model...");
 		this.input = params.input;
-		this.sampleRate = params.sampleRate;
-		this.worker = new Worker(path.join(__dirname, "DeepSpeechWorkerScript.js"));
+		this.worker = child_process.fork(path.join(__dirname, "DeepSpeechWorkerScript.js"));
 		this.setupListeners();
+		this.send({
+			msgType: "request",
+			name: "initialize",
+			model: params.model,
+			alphabet: params.alphabet,
+			responseDelay: params.responseDelay,
+			sampleRate: params.sampleRate
+		} as DsInitializeRequest);
 	}
 	
 	private setupListeners(): void {
@@ -47,7 +53,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	
 	/** Sends a message to the worker. */
 	private send(msg: DsWorkerMessage): void {
-		this.worker.postMessage(msg);
+		this.worker.send(msg);
 	}
 	
 	public setUtteranceOutput(output: TextOutput): void {
