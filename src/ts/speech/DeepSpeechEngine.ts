@@ -1,15 +1,15 @@
-import * as wt from "worker_threads";
 import * as path from "path";
 import { SpeechRecognitionEngine } from "./SpeechRecognitionEngine";
 import { TextOutput } from "../output/text/TextOutput";
 import { AudioInput } from "../input/AudioInput";
 import { LOG } from "../utils/Logger";
 import { DsWorkerMessage, DsStartRequest, DsStopRequest, DsFeedRequest } from "./DeepSpeechWorkerProtocol";
+import { Worker } from "worker_threads";
 
 export class DeepSpeechEngine implements SpeechRecognitionEngine {
 	private input: AudioInput;
 	private sampleRate: number;
-	private worker: wt.Worker;
+	private worker: Worker;
 	
 	public constructor(params: {
 		model: string;
@@ -23,7 +23,7 @@ export class DeepSpeechEngine implements SpeechRecognitionEngine {
 		LOG.info("Creating DeepSpeechEngine model...");
 		this.input = params.input;
 		this.sampleRate = params.sampleRate;
-		this.worker = new wt.Worker(path.join(__dirname, "DeepSpeechWorkerScript.js"));
+		this.worker = new Worker(path.join(__dirname, "DeepSpeechWorkerScript.js"));
 		this.setupListeners();
 	}
 	

@@ -3,6 +3,7 @@ import { DelayedTask } from "../utils/DelayedTask";
 import { LOG } from "../utils/Logger";
 import { DsInitializeRequest, DsWorkerMessage, DsFeedRequest } from "./DeepSpeechWorkerProtocol";
 import { isMainThread, parentPort } from "worker_threads";
+import { TextOutput } from "../output/text/TextOutput";
 
 // Source: https://github.com/mozilla/DeepSpeech/blob/master/native_client/javascript/client.js
 
@@ -28,11 +29,16 @@ const N_FEATURES = 26;
 const N_CONTEXT = 9;
 
 export class DeepSpeechWorker {
+	private output: TextOutput;
 	private dsModel?: ds.Model;
 	private sampleRate?: number;
 	private streamPtr?: any;
 	private responseTask: DelayedTask<void>;
 	private initialized = false;
+	
+	public constructor(output: TextOutput) {
+		this.output = output;
+	}
 	
 	/** Configures and initializes this worker. */
 	public initialize(params: DsInitializeRequest) {

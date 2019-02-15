@@ -1,9 +1,10 @@
 import { DeepSpeechWorker } from "./DeepSpeechWorker";
 import { DsWorkerMessage, DsFeedRequest, DsInitializeRequest } from "./DeepSpeechWorkerProtocol";
 import { parentPort, isMainThread } from "worker_threads";
+import { DeepSpeechWorkerOutput } from "./DeepSpeechWorkerOutput";
 
 function workerMain(): void {
-	const worker = new DeepSpeechWorker();
+	const worker = new DeepSpeechWorker(new DeepSpeechWorkerOutput(parentPort));
 	parentPort.on("message", value => {
 		const msg = value as DsWorkerMessage;
 		if (msg.msgType === "request") {
