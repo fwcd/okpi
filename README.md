@@ -27,6 +27,7 @@ Virtual assistant with offline voice recognition. Despite being primarily design
 
 ### NPM Dependencies
 * `npm install`
+    * When running on a development-only machine, the flag `--ignore-scripts` can be added to prevent `npm` from building the required native libraries
 
 ### Pocket Sphinx (optional)
 * The PocketSphinx installation currently requires Node.js 6
