@@ -5,15 +5,9 @@ import { DsOutputEvent } from "./DeepSpeechWorkerProtocol";
 /**
  * Transmits text using the worker protocol.
  */
-export class DeepSpeechWorkerOutput implements TextOutput {
-	private port: MessagePort;
-	
-	public constructor(port: MessagePort) {
-		this.port = port;
-	}
-	
+export class DeepSpeechProcessOutput implements TextOutput {
 	public accept(text: string): void {
-		this.port.postMessage({
+		process.send({
 			msgType: "event",
 			name: "output",
 			text: text
