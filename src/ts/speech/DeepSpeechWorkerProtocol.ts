@@ -31,3 +31,8 @@ export interface DsFeedRequest extends DsRequest {
 export interface DsEvent extends DsWorkerMessage {
 	msgType: "event";
 }
+
+export interface DsOutputEvent extends DsEvent {
+	name: "output";
+	text: string;
+}
